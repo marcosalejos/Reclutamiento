@@ -1,0 +1,47 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/asignarOferta.css' %}">
+</head>
+
+<body>
+    <main>
+        <div class="logo">
+            <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
+        </div>
+        <section class="section-container">
+            <div class="div-title"><h1>Asignación Solicitud-Oferta</h1></div>
+            <div class="main_container">
+                <form method="post" action="{% url 'asignarOferta' solicitud.id %}">
+                    {% csrf_token %}
+                    <div class="div_info">
+                        <div class="info1">
+                            <p class="label">Solicitante</p>
+                            <p>{{solicitud.Solicitante}}</p>
+                        </div>
+                        <div class="info2">
+                            <p class="label">Centro</p>
+                            <p>{{solicitud.Centro}}</p>
+                        </div>
+                        <div class="info3">
+                            <p class="label">Puesto</p>
+                            <p>{{solicitud.Puesto}}</p>
+                        </div>
+                    </div>
+                    <div class="container_oferta">
+                        <p>Ofertas</p>
+                        <div class="oferta_select">
+                            {{form.Ofertas}}
+                        </div>
+                    </div>
+                    <div class="sendBtn">
+                        <button type="submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solicitudes</title>
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/solicitudes.css' %}">
+  <script src="{% static 'js/solicitudesList.js' %}"></script>
+</head>
+<body class="BG-Blue TXT_Blanco">
+
+  <header class="header-container">
+    <section>
+        <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
+        <ul>
+          <li><a href="{% url 'home' %}">Inicio</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
+          <li><a href="{% url 'observacion' %}">Nueva Observación</a></li>
+          <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'suscripcion' %}">Nueva suscripción</a></li>
+          <li><a href="{% url 'solicitud' %}">Nueva solicitud</a></li>
+        </ul>  
+    </section>
+  </header>
+  <main>
+    <section class="top_section">
+      <section class="search_section">
+        <div class="form__group field">
+        </div>
+      </section>
+    </section>
+    <section class="tablas">
+      <table id="solicitudes" class="styled-table">
+        <tr>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Puesto</th>
+          <th>Fecha Registro</th>
+          <th>Solicitud</th>
+          <th></th>
+        </tr>
+        {% for candidato in candidatos %}
+        <tr>
+          <td>{{candidato.DNI}}</td>
+          <td>{{candidato.Nombre}}</td>
+          <td>{{candidato.Puesto}}</td>
+          <td>{{candidato.FechaRegistro|date:"d/m/Y"}}</td>
+          <td>{{candidato.PeticionID_id}}</td>
+          <td><button type="button" onclick="navigate('{{candidato.id}}')">Registrar</button></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </section>
+  </main>
+
+  <script>
+    function navigate(id){
+      window.location.href = "http://localhost:8000/registroCandidato/" + id;
+    }
+  </script>
+</body>

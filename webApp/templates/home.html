@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>home</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body class="BG-Blue TXT_Blanco">
+
+  <header class="header-container">
+    <section class="navegacion">
+        <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
+        <ul>
+          <li><a href="{% url 'home' %}">Inicio</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
+          <li><a href="{% url 'observacion' %}">Nueva Observación</a></li>
+          <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'suscripcion' %}">Nueva suscripción</a></li>
+          <li><a href="{% url 'solicitud' %}">Nueva solicitud</a></li>
+        </ul>  
+    </section>
+  </header>
+  <main>
+
+    <section class="guia">
+      <div class="text">
+        <h3>Ofertas</h3>
+      </div>
+      <div class="text">
+        <h3>Solicitudes</h3>
+      </div>
+      <div class="text">
+        <h3>Nueva Observación</h3>
+      </div>
+      <div class="text">
+        <h3>Nueva suscripción</h3>
+      </div>
+      <div class="text">
+        <h3>Nueva solicitud</h3>
+      </div>
+      <div class="text">
+        <h3>Contrataciones</h3>
+      </div>
+    </section>
+
+    <section class="imagenes">
+      <button role="link" onclick="navigate('ofertas')">
+        <img src="https://senec.es/wp-content/uploads/2021/10/98ec292dc3fbf42c55fe2e7de48b7b36.jpg"/>
+      </button>
+      <button role="link" onclick="navigate('solicitudes')">
+        <img src="https://www.bizneo.com/blog/wp-content/uploads/2022/10/problemas-de-reclutamiento-y-seleccion-de-personal-810x455.jpg"/> 
+      </button>
+      <button role="link" onclick="navigate('observacion')">
+        <img src="https://media.licdn.com/dms/image/C4E12AQHcH7LAuprN4A/article-cover_image-shrink_600_2000/0/1625094277790?e=2147483647&v=beta&t=fZ3vVbtG1SZqVZCG-QPwPiCPFs910ewTd6C-m-Ztk0A"/> 
+      </button>
+      <button role="link" onclick="navigate('suscripcion')">
+        <img src="https://blog.fidelizador.com/wp-content/uploads/2017/02/Formulario-sucripcion-1-650x300.png">
+      </button>
+      <button role="link" onclick="navigate('solicitud')">
+        <img src="https://img.freepik.com/vector-premium/reclutamiento-solicitud-empleo-contratacion-personal-seleccion-candidatos-empleo-ilustracion-concepto-busqueda-empleo_270158-316.jpg">
+      </button>
+      <button role="link" onclick="navigate('candidatos')">
+        <img src="https://lapublicidad.net/wp-content/uploads/2020/03/people.jpg" alt="">
+      </button>
+    </section>
+  </main>
+  <script type="text/javascript">
+    function navigate(seccion){
+      switch(seccion){
+        case "ofertas":
+          window.location.href = "http://localhost:8000/ofertas/";
+          break;
+        case "observacion":
+          window.location.href = "http://localhost:8000/observacion/";
+          break;
+        case "solicitudes":
+          window.location.href = "http://localhost:8000/solicitudes/";
+          break;
+        case "suscripcion":
+          window.location.href = "http://localhost:8000/suscripcion/";
+          break;
+        case "solicitud":
+          window.location.href = "http://localhost:8000/solicitud/";
+          break;
+        case "candidatos":
+          window.location.href = "http://localhost:8000/candidatos/"
+      }
+      
+    }
+    
+  </script>
+</body>

@@ -1,7 +1,5 @@
 import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-
 from webApp.FormAsignacion import FormularioAsignacion
 from webApp.FormCandidato import FormularioCandidato
 from . import models
@@ -10,7 +8,48 @@ from .FormSolicitud import FormularioSolicitud
 from .FormObservaciones import FormularioObservaciones
 from .FormSuscriptores import FormularioSuscriptores
 import pyodbc
-from django.contrib import messages
+import requests
+
+def SendMail(body, destinatario, subject):
+    tenant_id = '846f6db3-c6a6-4131-b084-cf6b63ab8af5'
+    client_id = '5bd04eae-8f60-4d26-9288-4d3cae02c048'
+    client_secret = '5WA8Q~cUSLccqcdBZreZB3f-sz-B8WIN22Hu4cHL'
+
+    # Obtener token de acceso
+    token_url = f'https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token'
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    data = {
+        'grant_type': 'client_credentials',
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'scope': 'https://graph.microsoft.com/.default'
+    }
+    response = requests.post(token_url, headers=headers, data=data)
+
+    if response.status_code == 200:
+        access_token = response.json()['access_token']
+        # Aquí puedes usar el access_token para realizar llamadas a la API de Microsoft Graph
+        print("Token de acceso obtenido correctamente.")
+
+        userId = "5d554bbe-7b0d-4fe1-a2f2-6e39a64691ab"
+        endpoint = f'https://graph.microsoft.com/v1.0/users/{userId}/sendMail'
+        toUserEmail = destinatario
+
+        email_msg = {'Message': {'Subject': subject,
+                                    'Body': {'ContentType': 'Text', 'Content': body},
+                                    'ToRecipients': [{'EmailAddress': {'Address': toUserEmail}}]
+                                    },
+                        'SaveToSentItems': 'true'}
+        r = requests.post(endpoint, headers={'Authorization': 'Bearer ' + access_token}, json=email_msg)
+
+        if r.ok:
+            print('Sent email successfully')
+        else:
+            print(r.json())
+
+
+    else:
+        print("Error al obtener el token de acceso:", response.text)
 
 
 def Conexion():
@@ -100,39 +139,38 @@ def solicitud(request):
             today = date.today()
             cursor.execute("INSERT INTO webApp_peticion(Solicitante, Puesto, Centro, Motivo, Vacantes, Observaciones, FechaSolicitud) VALUES(?, ?, ?, ?, ?, ?, ?)", (solicitante, puesto[0], centro, motivo, vacantes, observaciones, today))
             cursor.commit()
+            destinatario = "pepe.montanana@okoa.tech"
+            subject = "Nueva solicitud de personal " + str(today)
+            body = solicitante + " ha enviado una nueva solicitud de personal para el puesto: " + puesto[0] + "\n\n"
+            body += "Número de vacantes: " + str(vacantes) + "\n\n"
+            body += "Observaciones:\n" + observaciones + "\n\n\n"
+            body += "Por favor recuerde asociar esta solicitud con un proceso de selección existente o crear uno nuevo.\n\n"
+            body += "Para mas información de la solicitud por favor acceda al listado de solicitudes: http://192.168.2.252/solicitudes/"
+            SendMail(body, destinatario, subject)
 
     else:
         form = FormularioSolicitud()
 
     return render(request, 'solicitud.html', {'form': form})
 
-def observacion(request):
-    ofertasDic = {}
+def observacion(request, id):
     cursor = Conexion()
-    cursor.execute("SELECT id, nombre FROM webApp_oferta WHERE Estado = 'Activo'")
-    ofertas = cursor.fetchall()
-    for oferta in ofertas:
-        cursor.execute("SELECT id, Solicitante, Centro, Puesto FROM webApp_peticion WHERE OfertaID_id = ?", (oferta[0]))
-        solicitudes = [list(row) for row in cursor.fetchall()] 
-        ofertasDic[oferta[1]] = solicitudes
-    jsondic = json.dumps(ofertasDic)
-
+    cursor.execute("SELECT OfertaID_id FROM webApp_peticion WHERE id = ?", (id))
+    oferta = cursor.fetchall()
+    print(oferta[0][0])
     if request.method == 'POST':
         form = FormularioObservaciones(request.POST)
         if form.is_valid():
-            cursor = Conexion()
-            oferta = request.POST.get('clave')
-            solicitud = request.POST.get('valor')
             descripcion = form.cleaned_data["Descripcion"]
             today = date.today()
-            of = models.Oferta.objects.get(Nombre=oferta)
-            sol = models.Peticion.objects.get(id=solicitud)
-            obs = models.Observacion(Descripcion=descripcion, Fecha=today, Oferta=of, Solicitud=sol)
-            obs.save()
+            cursor.execute("INSERT INTO webApp_observacion VALUES (?,?,?,?)", (descripcion, today, oferta[0][0], id))
+            cursor.commit()
+            return redirect('/observacionesSolicitud/' + str(id))
+
     else:
         form = FormularioObservaciones()
 
-    return render(request, 'observacion.html', {'form': form, 'diccionario': ofertasDic, 'jsonDic':jsondic})
+    return render(request, 'observacion.html', {'form': form, "id": id})
 
 
 
@@ -185,21 +223,39 @@ def solicitudesList(request):
 
 def deleteSolicitud(request, id):
     cursor = Conexion()
+    cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
+    observaciones = cursor.fetchall()
+    if len(observaciones) > 0:
+        cursor.execute("DELETE webApp_observacion WHERE Solicitud_id = ?",(id))
+        cursor.commit()
     cursor.execute("DELETE webApp_peticion WHERE id = ?", (id))
     cursor.commit()
     return redirect('/solicitudes')
+
+def deleteObservacion(request, id, solicitudID):
+    cursor = Conexion()
+    cursor.execute("DELETE webApp_observacion WHERE id = ?", (id))
+    cursor.commit()
+    return redirect('/observacionesSolicitud/' + str(solicitudID))
 
 
 def asignarOferta(request, id):
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
     solicitud = cursor.fetchall()
+    cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
+    observaciones = cursor.fetchall()
+    print(observaciones)
     if request.method == 'POST':
         form = FormularioAsignacion(request.POST)
         if form.is_valid():
             oferta = form.cleaned_data["Ofertas"]
             cursor.execute("UPDATE webApp_peticion SET OfertaID_id = ? WHERE id = ?", (oferta, id))
             cursor.commit()
+            if len(observaciones) > 0:
+                for observacion in observaciones:
+                    cursor.execute("UPDATE webApp_observacion SET Oferta_id = ? WHERE id = ?", (oferta, observacion[0]))
+                    cursor.commit()
             return redirect('/solicitudes')
 
     else:
@@ -215,4 +271,4 @@ def observacionesSolicitud(request, id):
     observaciones = cursor.fetchall()
     observaciones = sorted(observaciones, key=lambda x: x[2], reverse=True)
     #observaciones = ["alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma", "alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma"]
-    return render(request, 'observacionesSoli.html', {'observaciones':observaciones})
+    return render(request, 'observacionesSoli.html', {'observaciones':observaciones, "id":id})

@@ -15,10 +15,8 @@
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
           <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
-          <li><a href="{% url 'observacion' %}">Nueva Observación</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
-          <li><a href="{% url 'suscripcion' %}">Nueva suscripción</a></li>
-          <li><a href="{% url 'solicitud' %}">Nueva solicitud</a></li>
+          <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul> 
     </section>
   </header>
@@ -33,7 +31,10 @@
       <section class="search_section">
         <div class="form__group field">
           <input type="input" onkeyup="Search()" class="form__field" placeholder="Nombre o fecha de la oferta" name="search" id='search' required />
-          <label for="search" class="form__label">Nombre o Fecha de la oferta</label>
+          <label for="search" class="form__label">Nombre o Fecha</label>
+        </div>
+        <div class="container_suscripcion">
+          <button onclick="newSub()">Nueva suscripción</button>
         </div>
       </section>
       
@@ -53,7 +54,7 @@
         <tr>
           <td class="nombre_oferta">{{oferta.Nombre}}</td>
           <td>{{oferta.lastUpdate|date:"d/m/Y"}}</td>
-          <td><button> Detalles</button></td>
+          <td><button>Detalles</button></td>
         </tr>
         {% endfor %}
       </table>
@@ -78,4 +79,10 @@
       </div>
     </section>
   </main>
+
+  <script>
+    function newSub(){
+      window.location.href = "http://localhost:8000/suscripcion"
+    }
+  </script>
 </body>

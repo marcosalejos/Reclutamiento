@@ -69,7 +69,7 @@ class Peticion(models.Model):
 class Observacion(models.Model):
     Descripcion = models.TextField()
     Fecha = models.DateField()
-    Oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE)
+    Oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, null=True)
     Solicitud = models.ForeignKey(Peticion, on_delete=models.DO_NOTHING)
 
 
@@ -262,38 +262,45 @@ class SatisfacionSeleccion(models.Model):
         (TOT, "Totalmente")
     )
 
-    RIG = "Riguroso"
-    UT = "Útil"
-    AM = "Ameno"
-    TP = "Transparente"
-    PROF = "Profesional"
-    TEC = "Técnico"
-    LARGO = "Largo"
-    AGIL = "Ágil"
-
-    GRADO_CHOICES = (
-        (RIG, "Riguroso"),
-        (UT, "Útil"),
-        (AM, "Ameno"),
-        (TP, "Transparente"),
-        (PROF, "Profesional"),
-        (TEC, "Técnico"),
-        (LARGO, "Largo"),
-        (AGIL, "Ágil")
-    )
-
-
-    Grado = models.CharField(
-        max_length=12,
-        choices=GRADO_CHOICES,
-        default=RIG,
-        null=False
-    )
-    Respuesta = models.CharField(
+    Riguroso = models.CharField(
         max_length=10,
         choices=RESPUESTAS_CHOICES,
-        default=POCO,
-        null=False
+        default=POCO
+    )
+    Util = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Ameno = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Transparente = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Profesional = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Tecnico = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Largo = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
+    )
+    Agil = models.CharField(
+        max_length=10,
+        choices=RESPUESTAS_CHOICES,
+        default=POCO
     )
 
     #Pregunta 3
@@ -349,7 +356,8 @@ class SatisfacionSeleccion(models.Model):
 
     #Pregunta 11
     FechaEntrevista = models.DateField()
-'''
+
+
 class SatisfaccionBienvenida(models.Model):
 
     FIRST = "15 dias"
@@ -365,12 +373,115 @@ class SatisfaccionBienvenida(models.Model):
         default=FIRST,
         null=False
     )
-    #Pregunta 1
-    GradoTipo = models.CharField(max_length=20)
-    GradoRes = models.CharField(max_length=30)
-    #Pregunta 2
 
-'''
+    POCO = "Poco"
+    ALGO = "Algo"
+    BAST = "Bastante"
+    TOT = "Totalmente"
+
+    GRADO_CHOICES = (
+        (POCO, "Poco"),
+        (ALGO, "Algo"),
+        (BAST, "Bastante"),
+        (TOT, "Totalmente")
+    )
+
+    #Pregunta 1
+    Familiar = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Util = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Motivante = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+
+    #Pregunta 2
+    Explicacion_resp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Ayuda_resp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Interes_resp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+
+    #Pregunta 3
+
+    Explicacion_comp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Ayuda_comp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+    Interes_comp = models.CharField(
+        max_length=10,
+        choices=GRADO_CHOICES,
+        default=POCO,
+        null=False
+    )
+
+    #Pregunta 4
+    Cultura = models.CharField(max_length=300)
+
+    #Pregunta 5
+    EntregaRopa = models.CharField(max_length=300)
+
+    #Pregunta 6
+    ValoraRopa = models.CharField(max_length=300, null=True)
+
+    #Pregunta 7
+    Puesto_exp = models.CharField(max_length=300)
+
+    #Pregunta 8
+    Instalaciones = models.CharField(max_length=2)
+
+    #Pregunta 9
+    Adaptacion_org = models.IntegerField()
+
+    #Pregunta 10
+    Adaptacion_puesto = models.IntegerField()
+
+    #Pregunta 11
+    Utilidad_puntuacion = models.IntegerField()
+
+    #Pregunta 12
+    Dificultades = models.TextField(null=True)
+
+    #Pregunta 13
+    Centro = models.CharField(max_length=200)
+
+    #Pregunta 14
+    Experiencia = models.CharField(max_length=300)
+
+    #Pregunta 15 
+    FechaInc = models.DateField()
 
 '''
 class SatisfaccionFormacion(models.Model):
@@ -444,6 +555,22 @@ class Entradas_Salidas(models.Model):
     Grupo = models.CharField(max_length=50)
     Convenio = models.CharField(max_length=50)
 
-'''class Desvinculaciones(models.Model):
-    #Datos Formulario
-    ES = models.ForeignKey(Entradas_Salidas, on_delete=models.DO_NOTHING)'''
+class Desvinculaciones(models.Model):
+    #Pregunta 1
+    Titular = models.CharField(max_length=100)
+    #Pregunta 2
+    TresPalabras = models.CharField(max_length=150)
+    #Pregunta 3
+    SituacionPositiva = models.CharField(max_length=300)
+    #Pregunta 4
+    Mejora = models.TextField()
+    #Pregunta 5
+    SituacionNegativa = models.CharField(max_length=300)
+    #Pregunta 6
+    MotivosAbandono = models.CharField(max_length=350)
+    #Pregunta 7
+    Propuesta = models.CharField(max_length=350)
+    #Pregunta 8
+    Recomendacion = models.IntegerField()
+    
+    ES = models.ForeignKey(Entradas_Salidas, on_delete=models.DO_NOTHING)

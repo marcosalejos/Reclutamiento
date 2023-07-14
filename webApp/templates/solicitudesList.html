@@ -15,10 +15,8 @@
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
           <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
-          <li><a href="{% url 'observacion' %}">Nueva Observación</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
-          <li><a href="{% url 'suscripcion' %}">Nueva suscripción</a></li>
-          <li><a href="{% url 'solicitud' %}">Nueva solicitud</a></li>
+          <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul>  
     </section>
   </header>
@@ -29,6 +27,9 @@
           <input type="input" onkeyup="SearchTable(solicitudes)" class="form__field" placeholder="Buscar Solicitud" name="search" id='search' required />
           <label for="search" class="form__label">Buscar solicitud</label>
         </div>
+      </section>
+      <section class="solicitud_section">
+        <button onclick="newSoli()">Nueva Solicitud</button>
       </section>
     </section>
     <section class="tablas">
@@ -64,6 +65,9 @@
   <script>
     function navigate(id){
       window.location.href = "http://localhost:8000/observacionesSolicitud/" + id;
+    }
+    function newSoli(){
+      window.location.href = "http://localhost:8000/solicitud"
     }
   </script>
 </body>

@@ -12,19 +12,31 @@
     <main>
         <div class="header">
             <div class="home_icon">
-                <a href="{% url 'home' %}">
+                <a href="{% url 'solicitudes' %}">
                     <img src="{% static 'imagenes/flecha.png' %}" alt="Back">
                 </a>
             </div>
             <div class="logo">
                 <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
             </div>
+            <div class="add_container">
+                <a href="{% url 'observacion' id %}">
+                    <img src="{% static 'imagenes/añadir.png' %}" alt="Añadir">
+                </a>
+            </div>
         </div>
         <section class="tablon">
             {% for observacion in observaciones %}
             <div class="card">
-                <div class="date">
-                    <h3>{{observacion.Fecha|date:"d/m/Y"}}</h3>
+                <div class="topCard">
+                    <div class="date">
+                        <h3>{{observacion.Fecha|date:"d/m/Y"}}</h3>
+                    </div>
+                    <div class="deleteBtn">
+                        <a href="{% url 'deleteObservacion' observacion.id id %}">
+                            <img src="{% static 'imagenes/signo-menos.png' %}" alt="delete">
+                        </a>
+                    </div>
                 </div>
                 <div class="text">
                     <p>{{observacion.Descripcion}}</p>

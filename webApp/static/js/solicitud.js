@@ -13,7 +13,8 @@ var opcionesTecnico = [
     "Técnico/a de Montaje y Mantenimiento Electromecánico",
     "Técnico/a de PRL (Seguridad y Salud)",
     "Técnico/a de Sistemas",
-    "Técnico/a Frigorista Industrial"
+    "Técnico/a Frigorista Industrial",
+    "Técnico/a de Reclutamiento y Selección"
 ]
 var opcionesGestor = [
     "Gestor/a de Almacén"

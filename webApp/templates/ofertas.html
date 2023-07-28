@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lista de Ofertas</title>
+  <title>Ofertas - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
 
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/ofertas.css' %}">
-  <script src="{% static 'js/ofertas.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'admin/css/ofertas.css' %}">
+  <script src="{% static 'admin/js/ofertas.js' %}"></script>
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -14,8 +15,8 @@
         <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
-          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul> 
     </section>
@@ -82,7 +83,7 @@
 
   <script>
     function newSub(){
-      window.location.href = "http://localhost:8000/suscripcion"
+      window.location.href = "http://192.168.2.252/suscripcion"
     }
   </script>
 </body>

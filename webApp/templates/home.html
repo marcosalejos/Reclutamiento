@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>home</title>
+  <title>V&P - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/css/home.css' %}">
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -12,8 +13,8 @@
         <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
-          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul>  
     </section>
@@ -22,10 +23,10 @@
 
     <section class="guia">
       <div class="text">
-        <h3>Ofertas</h3>
+        <h3>Solicitudes</h3>
       </div>
       <div class="text">
-        <h3>Solicitudes</h3>
+        <h3>Ofertas</h3>
       </div>
       <div class="text">
         <h3>Contrataciones</h3>
@@ -33,11 +34,11 @@
     </section>
 
     <section class="imagenes">
-      <button role="link" onclick="navigate('ofertas')">
-        <img src="https://senec.es/wp-content/uploads/2021/10/98ec292dc3fbf42c55fe2e7de48b7b36.jpg"/>
-      </button>
       <button role="link" onclick="navigate('solicitudes')">
         <img src="https://www.bizneo.com/blog/wp-content/uploads/2022/10/problemas-de-reclutamiento-y-seleccion-de-personal-810x455.jpg"/> 
+      </button>
+      <button role="link" onclick="navigate('ofertas')">
+        <img src="https://senec.es/wp-content/uploads/2021/10/98ec292dc3fbf42c55fe2e7de48b7b36.jpg"/>
       </button>
       <button role="link" onclick="navigate('candidatos')">
         <img src="https://lapublicidad.net/wp-content/uploads/2020/03/people.jpg" alt="">
@@ -48,22 +49,22 @@
     function navigate(seccion){
       switch(seccion){
         case "ofertas":
-          window.location.href = "http://localhost:8000/ofertas/";
+          window.location.href = "http://192.168.2.252/ofertas/";
           break;
         case "observacion":
-          window.location.href = "http://localhost:8000/observacion/";
+          window.location.href = "http://192.168.2.252/observacion/";
           break;
         case "solicitudes":
-          window.location.href = "http://localhost:8000/solicitudes/";
+          window.location.href = "http://192.168.2.252/solicitudes/";
           break;
         case "suscripcion":
-          window.location.href = "http://localhost:8000/suscripcion/";
+          window.location.href = "http://192.168.2.252/suscripcion/";
           break;
         case "solicitud":
-          window.location.href = "http://localhost:8000/solicitud/";
+          window.location.href = "http://192.168.2.252/solicitud/";
           break;
         case "candidatos":
-          window.location.href = "http://localhost:8000/candidatos/"
+          window.location.href = "http://192.168.2.252/candidatos/"
       }
       
     }

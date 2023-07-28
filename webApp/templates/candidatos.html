@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Solicitudes</title>
-
+  <title>Contrataciones - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/solicitudes.css' %}">
-  <script src="{% static 'js/solicitudesList.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'admin/css/solicitudes.css' %}">
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -14,8 +13,8 @@
         <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
-          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul>  
     </section>
@@ -36,6 +35,7 @@
           <th>Fecha Registro</th>
           <th>Solicitud</th>
           <th></th>
+          <th></th>
         </tr>
         {% for candidato in candidatos %}
         <tr>
@@ -45,6 +45,11 @@
           <td>{{candidato.FechaRegistro|date:"d/m/Y"}}</td>
           <td>{{candidato.PeticionID_id}}</td>
           <td><button type="button" onclick="navigate('{{candidato.id}}')">Registrar</button></td>
+          <td class="mail">
+            {% if candidato.Estado == "Registrado" %}
+            <a href="{% url 'informeCandidato' candidato.id %}"><img src="{% static 'admin/imagenes/send-mail.png' %}" alt="SendMail"></a>
+            {% endif %}
+          </td>
         </tr>
         {% endfor %}
       </table>
@@ -53,7 +58,7 @@
 
   <script>
     function navigate(id){
-      window.location.href = "http://localhost:8000/registroCandidato/" + id;
+      window.location.href = "http://192.168.2.252/registroCandidato/" + id;
     }
   </script>
 </body>

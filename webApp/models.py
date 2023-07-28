@@ -65,6 +65,21 @@ class Peticion(models.Model):
     Observaciones = models.TextField(null=True)
     OfertaID = models.ForeignKey(Oferta, on_delete=models.CASCADE, null=True)
     FechaSolicitud = models.DateField(null=False)
+    Contratados = models.IntegerField(null=True, default=0)
+
+    NEW = "Abierta"
+    END = "Cerrada"
+    ESTADO_CHOICES = [
+        (NEW,"Abierta"),
+        (END,"Cerrada")
+    ]
+    Estado = models.CharField(
+        max_length=10,
+        choices=ESTADO_CHOICES,
+        default=NEW,
+        null=False
+    )
+    Validado = models.BooleanField(null=False, default=False)
 
 class Observacion(models.Model):
     Descripcion = models.TextField()
@@ -81,8 +96,6 @@ class Candidato(models.Model):
     Nacionalidad = models.CharField(max_length=50, null=True)
     Telefono = models.IntegerField(null=True)
     Mail = models.CharField(max_length=150, null=True)
-    ImgDNI = models.CharField(max_length=500, null=True)
-    ImgSIP = models.CharField(max_length=500, null=True)
     Municipio = models.CharField(max_length=100, null=True)
     CP = models.IntegerField(null=True)
     Provincia = models.CharField(max_length=75, null=True)
@@ -104,6 +117,17 @@ class Candidato(models.Model):
         default=PENDIENTE,
         null=False
     )
+
+    Sociedad = models.CharField(max_length=50, null=True)
+    Seccion = models.CharField(max_length=75, null=True)
+    Categoria = models.CharField(max_length=75, null=True)
+    Centro = models.CharField(max_length=50, null=True)
+    CentroComp = models.CharField(max_length=50, null=True)
+    Convenio = models.CharField(max_length=150, null=True)
+    SBA = models.TextField(null=True)
+    SIP = models.IntegerField(null=True)
+    TurnoInicial = models.CharField(max_length=50, null=True)
+
     EmpresaOrigen = models.CharField(max_length=100, null=True) #Modificado
     PuestoOrigen = models.CharField(max_length=200, null=True) #Modificado
     Puesto = models.CharField(max_length=200, null=True) #Modificado

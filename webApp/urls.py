@@ -13,5 +13,6 @@ urlpatterns = [
     path('deleteSolicitud/<id>', views.deleteSolicitud ,name='deleteSolicitud'),
     path('deleteObservacion/<id>/<solicitudID>', views.deleteObservacion, name='deleteObservacion'),
     path('asignarOferta/<id>', views.asignarOferta, name='asignarOferta'),
-    path('observacionesSolicitud/<id>', views.observacionesSolicitud, name='observacionesSolicitud')
+    path('observacionesSolicitud/<id>', views.observacionesSolicitud, name='observacionesSolicitud'),
+    path('informeCandidato/<id>', views.informeCandidato, name='informeCandidato')
 ]

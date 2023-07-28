@@ -5,15 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/observacionesSoli.css' %}">
+    <title>Observaciones - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/observacionesSoli.css' %}">
 </head>
 <body>
     <main>
         <div class="header">
             <div class="home_icon">
                 <a href="{% url 'solicitudes' %}">
-                    <img src="{% static 'imagenes/flecha.png' %}" alt="Back">
+                    <img src="{% static 'admin/imagenes/flecha.png' %}" alt="Back">
                 </a>
             </div>
             <div class="logo">
@@ -21,7 +22,7 @@
             </div>
             <div class="add_container">
                 <a href="{% url 'observacion' id %}">
-                    <img src="{% static 'imagenes/añadir.png' %}" alt="Añadir">
+                    <img src="{% static 'admin/imagenes/añadir.png' %}" alt="Añadir">
                 </a>
             </div>
         </div>
@@ -34,7 +35,7 @@
                     </div>
                     <div class="deleteBtn">
                         <a href="{% url 'deleteObservacion' observacion.id id %}">
-                            <img src="{% static 'imagenes/signo-menos.png' %}" alt="delete">
+                            <img src="{% static 'admin/imagenes/signo-menos.png' %}" alt="delete">
                         </a>
                     </div>
                 </div>

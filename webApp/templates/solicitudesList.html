@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Solicitudes</title>
-
+  <title>Solicitudes - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/solicitudes.css' %}">
-  <script src="{% static 'js/solicitudesList.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'admin/css/solicitudes.css' %}">
+  <script src="{% static 'admin/js/solicitudesList.js' %}"></script>
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -14,13 +14,21 @@
         <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
         <ul>
           <li><a href="{% url 'home' %}">Inicio</a></li>
-          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
           <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
         </ul>  
     </section>
   </header>
   <main>
+    <section class="resumen_section">
+      <div id="encabezados" class="encabezados">
+        
+      </div>
+      <div id="valores" class="encabezados">
+        
+      </div>
+    </section>
     <section class="top_section">
       <section class="search_section">
         <div class="form__group field">
@@ -46,16 +54,16 @@
           <th></th>
         </tr>
         {% for solicitud in solicitudes %}
-        <tr>
+        <tr id="entradas">
           <td>{{solicitud.Solicitante}}</td>
           <td>{{solicitud.FechaSolicitud|date:"d/m/Y"}}</td>
-          <td>{{solicitud.Centro}}</td>
+          <td id="centro">{{solicitud.Centro}}</td>
           <td>{{solicitud.Puesto}}</td>
           <td>{{solicitud.Vacantes}}</td>
-          <td>{{contrataciones}}</td>
+          <td>{{solicitud.Contratados}}</td>
           <td><a class="ofertaLink" href="{% url 'asignarOferta' solicitud.id %}">{{solicitud.OfertaID_id}}</a></td>
           <td><button type="button" onclick="navigate('{{solicitud.id}}')">Observaciones</button></td>
-          <td><a href="{% url 'deleteSolicitud' solicitud.id %}"><img class="delete" src="{% static 'imagenes/deleteIcon.png' %}" alt="Delete"></a></td>
+          <td><a href="{% url 'deleteSolicitud' solicitud.id %}"><img class="delete" src="{% static 'admin/imagenes/deleteIcon.png' %}" alt="Delete"></a></td>
         </tr>
         {% endfor %}
       </table>
@@ -64,10 +72,10 @@
 
   <script>
     function navigate(id){
-      window.location.href = "http://localhost:8000/observacionesSolicitud/" + id;
+      window.location.href = "http://192.168.2.252/observacionesSolicitud/" + id;
     }
     function newSoli(){
-      window.location.href = "http://localhost:8000/solicitud"
+      window.location.href = "http://192.168.2.252/solicitud"
     }
   </script>
 </body>

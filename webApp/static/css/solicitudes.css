@@ -43,7 +43,7 @@ body{
   }
 
   .tablas{
-    height: 80%;
+    height: 65%;
     width: 90%;
     max-height: 518px;
     overflow-y: auto;
@@ -136,7 +136,7 @@ body{
 
   .top_section{
     width: 90%;
-    height: 15%;
+    height: 10%;
     display: flex;
     justify-content: end;
     align-items: end;
@@ -221,8 +221,11 @@ body{
   }
 
   .solicitud_section{
-    width: 20%;
-    height: 30%;
+    width: 15%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .solicitud_section button{
@@ -230,4 +233,53 @@ body{
     border-radius: 7px;
     height: 100%;
     width: 100%;
+  }
+
+  .resumen_section{
+    height: 15%;
+    width: 90%;
+  }
+
+  .encabezados{
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .enc{
+    text-align: center;
+    display: flex;
+    height: 100%;
+    width: 8%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .enc a{
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .enc a:hover{
+    color: #3dae2a
+  }
+
+  .enc_tot{
+    text-align: center;
+    display: flex;
+    height: 100%;
+    width: 8%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #004a98;
+  }
+  .enc_tot a{
+    color: #004a98;
+    cursor: pointer;
+  }
+  .mail img{
+    width: 40px
   }

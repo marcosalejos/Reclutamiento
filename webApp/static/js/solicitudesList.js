@@ -35,6 +35,99 @@ function SearchTable(table){
 
 }
 
+function HiddeDelete(){
+    let contratadosList = document.getElementsByName("contratados");
+    let deleteButtons = document.getElementsByName("delete");
+    for(let i = 0; i < contratadosList.length; i++){
+        let valor = contratadosList[i].innerText;
+        if(valor > 0){
+            deleteButtons[i].style.display = "none";
+        }
+    }
+}
+
+function MostrarFilasValidadas(estado){
+    var filas = document.getElementsByTagName("tr");
+    var filasEstado = [];
+    for(let i = 1; i < filas.length; i++){
+        filas[i].style.display = 'none';
+        if(filas[i].getAttribute('id') === estado){
+            filasEstado.push(filas[i]);
+        }
+    }
+    for(let i = 0; i < filasEstado.length; i++){
+        filasEstado[i].style.display = "table-row";
+    }
+}
+
+function FiltroContratacion(estado){
+    var filas = document.getElementsByTagName("tr");
+    if(estado == "Abierta"){
+        for(let i = 1; i < filas.length; i++){
+            let contrataList = document.getElementsByName("contratados");
+            let contrata = contrataList[i-1];
+            let contrataText = contrata.innerText;
+            let vacantesList = document.getElementsByName("vacantes");
+            let vacantes = vacantesList[i-1];
+            let vacantesText = vacantes.innerText;
+            if(contrataText < vacantesText){
+                filas[i].style.display = "table-row";
+            }else{
+                filas[i].style.display = "none";
+            }
+        }
+    }else if(estado == "Cerrada"){
+        for(let i = 1; i < filas.length; i++){
+            let contrataList = document.getElementsByName("contratados");
+            let contrata = contrataList[i-1];
+            let contrataText = contrata.innerText;
+            let vacantesList = document.getElementsByName("vacantes");
+            let vacantes = vacantesList[i-1];
+            let vacantesText = vacantes.innerText;
+            if(contrataText == vacantesText){
+                filas[i].style.display = "table-row";
+            }else{
+                filas[i].style.display = "none";
+            }
+        }
+    }
+}
+
+function FiltroValidacion(){
+    var checkbox = document.getElementById("checkValidaciones");
+    var filas = document.getElementsByTagName("tr");
+    var filasValidadas = [];
+    var filasNoVal = [];
+    var aprLink = document.getElementById("aprobadas");
+    var denLink = document.getElementById("denegadas");
+    for(let i = 1; i < filas.length; i++){
+        let fila = filas[i];
+        if(fila.getAttribute('id') === 'None'){
+            filasNoVal.push(fila);
+        }else{
+            filasValidadas.push(fila);
+        }
+    }
+    if(checkbox.checked){
+        aprLink.style.display = "none";
+        denLink.style.display = "none";
+        for(let i = 0; i < filasValidadas.length; i++){
+            filasValidadas[i].style.display = "none";
+        }
+        for(let i = 0; i < filasNoVal.length; i++){
+            filasNoVal[i].style.display = "table-row";
+        }
+    }else{
+        aprLink.style.display = "flex";
+        denLink.style.display = "flex";
+        for(let i = 0; i < filasNoVal.length; i++){
+            filasNoVal[i].style.display = "none";
+        }
+        for(let i = 0; i < filasValidadas.length; i++){
+            filasValidadas[i].style.display = "table-row";
+        }
+    }  
+}
 
 function SolicitudesCount(){
     let hashMap = new Map();
@@ -97,7 +190,7 @@ function FiltrarTabla(centro){
             filas[i].style.display = 'table-row';
           }
     }else{
-        for (let i = 0; i < filas.length; i++) {
+        for (let i = 1; i < filas.length; i++) {
             filas[i].style.display = 'none';
           }
         
@@ -111,11 +204,9 @@ function FiltrarTabla(centro){
             }
           }
     }
-
-    
 }
-
 window.addEventListener('DOMContentLoaded', function() {
     SolicitudesCount();
-    
+    HiddeDelete();
+    FiltroValidacion();
 });

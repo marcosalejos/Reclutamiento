@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Solicitud - Okoa</title>
     <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
-    <link rel="stylesheet" href="{% static 'admin/css/solicitud.css' %}">
+    <link rel="stylesheet" href="{% static 'css/solicitud.css' %}">
 
 </head>
 <body>
@@ -14,7 +14,7 @@
         <div class="header">
             <div class="home_icon">
                 <a href="{% url 'solicitudes' %}">
-                    <img src="{% static 'admin/imagenes/flecha.png' %}" alt="Back">
+                    <img src="{% static 'imagenes/flecha.png' %}" alt="Back">
                 </a>
             </div>
             <div class="logo">
@@ -119,14 +119,6 @@
                                 </span>
                             </label>
                             <label>
-                                <input class="radioIn" type="radio" name="light" value="option6">
-                                <span class="design"></span>
-                                <span class="text">
-                                    Incorporación por dimensionamiento del equipo (incorporación por 
-                                    crecimiento de la adenda)
-                                </span>
-                            </label>
-                            <label>
                                 <input class="radioIn" type="radio" name="light" value="option7">
                                 <span class="design"></span>
                                 <span class="text">
@@ -151,5 +143,5 @@
             </form>
         </div>
     </main>    
-    <script src="{% static 'admin/js/solicitud.js' %}"></script>
+    <script src="{% static 'js/solicitud.js' %}"></script>
 </body>

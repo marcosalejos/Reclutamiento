@@ -11,7 +11,8 @@ class FormularioCandidato(forms.Form):
         ("Mañana", "Mañana"),
         ("Tarde", "Tarde"),
         ("Noche", "Noche"),
-        ("Central", "Central")
+        ("Central", "Central"),
+        ("Qunto turno", "Quinto turno")
     )
     CENTROCOMP_CHOICES = (
         ("Mecanico", "Mecanico"),
@@ -37,13 +38,18 @@ class FormularioCandidato(forms.Form):
     CP = forms.IntegerField(required=True)
 
     EntidadBank = forms.CharField(max_length=100, required=True)
-    IBAN = forms.IntegerField(required=True)
+    CodPais = forms.CharField(max_length=2, required=True)
+    ControlDig = forms.CharField(max_length=2, required=True)
+    EntBanc = forms.CharField(max_length=4, required=True)
+    SucBanc = forms.CharField(max_length=4, required=True)
+    ControlDig2 = forms.CharField(max_length=2, required=True)
+    Cuenta = forms.CharField(max_length=10, required=True)
 
     Sociedad = forms.CharField(max_length=75, required=True)
     Seccion = forms.CharField(max_length=100, required=True)
     FechaIncorporacion = forms.DateField(
         required=True,
-        widget=forms.DateInput(attrs={'type': 'date', 'min': str(date.today())})
+        widget=forms.DateInput(attrs={'type': 'date'})
     )
     Categoria = forms.CharField(max_length=100, required=True)
     Convenio = forms.CharField(max_length=100, required=True)

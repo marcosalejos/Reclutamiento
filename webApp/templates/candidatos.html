@@ -4,7 +4,7 @@
   <title>Contrataciones - Okoa</title>
   <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'admin/css/solicitudes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/solicitudes.css' %}">
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -20,11 +20,15 @@
     </section>
   </header>
   <main>
-    <section class="top_section">
-      <section class="search_section">
-        <div class="form__group field">
-        </div>
-      </section>
+    <section id="calendarSection" class="top_section" style="height: 20%; flex-direction: column; justify-content: start; align-items: center;">
+      <div class="calendarioText">
+        <h3>Calendario de Incorporaciones</h3>
+      </div>
+      <div class="calendarioIcono">
+        <a href="{% url 'calendario' %}">
+          <img src="{% static 'imagenes/calendario.png' %}" alt="calendar"/>
+        </a>
+      </div>
     </section>
     <section class="tablas">
       <table id="solicitudes" class="styled-table">
@@ -47,7 +51,7 @@
           <td><button type="button" onclick="navigate('{{candidato.id}}')">Registrar</button></td>
           <td class="mail">
             {% if candidato.Estado == "Registrado" %}
-            <a href="{% url 'informeCandidato' candidato.id %}"><img src="{% static 'admin/imagenes/send-mail.png' %}" alt="SendMail"></a>
+            <a href="{% url 'detalleInforme' candidato.id %}"><img src="{% static 'imagenes/send-mail.png' %}" alt="SendMail"></a>
             {% endif %}
           </td>
         </tr>
@@ -58,7 +62,7 @@
 
   <script>
     function navigate(id){
-      window.location.href = "http://192.168.2.252/registroCandidato/" + id;
+      window.location.href = "http://localhost:8000/registroCandidato/" + id;
     }
   </script>
 </body>

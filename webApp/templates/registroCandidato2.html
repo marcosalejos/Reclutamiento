@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Okoa</title>
     <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
-    <link rel="stylesheet" href="{% static 'admin/css/registroCandidato2.css' %}">
-    <script src="{% static 'admin/js/registroCandidato2.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/registroCandidato2.css' %}">
+    <script src="{% static 'js/registroCandidato2.js' %}"></script>
 </head>
 <body>
     <main>
         <section class="top_section">
             <div class="home">
                 <a href="{% url 'candidatos' %}">
-                    <img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back">
+                    <img src="{% static 'imagenes/flechaAzul.png' %}" alt="Back">
                 </a>
-            </div>
-            <div class="logo">
-                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
             </div>
             <div class="vacio">
 
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
             </div>
         </section>
         <form method="post" action="{% url 'registroCandidato' candidatoID %}">
@@ -41,7 +41,7 @@
                             {{form.FechaNacimiento}}
                         </div>
                         <div class="fila">
-                            <p>Correo Elctrónico</p>
+                            <p>Correo Electrónico</p>
                             {{form.Mail}}
                         </div>
                         <div class="fila">
@@ -93,12 +93,31 @@
                 <div class="campos" style="height: 80%;">
                     <div class="col_banc">
                         <div class="fila_banc">
-                            <p>Entidad Bancaria</p>
+                            <p>Nombre Entidad Bancaria</p>
                             {{form.EntidadBank}}
                         </div>
                         <div class="fila_banc">
                             <p>IBAN</p>
-                            {{form.IBAN}}
+                            <div class="iban"> 
+                                <div class="col2" style="margin-left: 1%;">
+                                    {{form.CodPais}}
+                                </div>
+                                <div class="col2">
+                                    {{form.ControlDig}}
+                                </div>
+                                <div class="col4">
+                                    {{form.EntBanc}}
+                                </div>
+                                <div class="col4">
+                                    {{form.SucBanc}}
+                                </div>
+                                <div class="col2">
+                                    {{form.ControlDig2}}
+                                </div>
+                                <div class="col10">
+                                    {{form.Cuenta}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +153,7 @@
                                 {{form.Convenio}}
                             </div>
                             <div class="fila">
-                                <p>Turno Inicial</p>
+                                <p>Turno</p>
                                 {{form.TurnoInicial}}
                             </div>
                         </div>
@@ -148,8 +167,11 @@
                         <div class="fila_sba">
                             <p>Solicitud</p>
                             <select onchange="RellenarSolicitud()" name="solicitudes" id="solicitudes">
+                                <option value="{{ candidatoSolicitud.id }}-{{ candidatoSolicitud.Centro }}" selected>{{candidatoSolicitud.Solicitante}} - {{candidatoSolicitud.Puesto}}</option>
                                 {% for solicitud in solicitudes %}
+                                {% if solicitud.id != candidatoSolicitud.id%}
                                 <option value="{{ solicitud.id }}-{{ solicitud.Centro }}">{{solicitud.Solicitante}} - {{solicitud.Puesto}}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>

@@ -4,7 +4,7 @@
   <title>V&P - Okoa</title>
   <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'admin/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -49,22 +49,22 @@
     function navigate(seccion){
       switch(seccion){
         case "ofertas":
-          window.location.href = "http://192.168.2.252/ofertas/";
+          window.location.href = "http://localhost:8000/ofertas/";
           break;
         case "observacion":
-          window.location.href = "http://192.168.2.252/observacion/";
+          window.location.href = "http://localhost:8000/observacion/";
           break;
         case "solicitudes":
-          window.location.href = "http://192.168.2.252/solicitudes/";
+          window.location.href = "http://localhost:8000/solicitudes/";
           break;
         case "suscripcion":
-          window.location.href = "http://192.168.2.252/suscripcion/";
+          window.location.href = "http://localhost:8000/suscripcion/";
           break;
         case "solicitud":
-          window.location.href = "http://192.168.2.252/solicitud/";
+          window.location.href = "http://localhost:8000/solicitud/";
           break;
         case "candidatos":
-          window.location.href = "http://192.168.2.252/candidatos/"
+          window.location.href = "http://localhost:8000/candidatos/"
       }
       
     }

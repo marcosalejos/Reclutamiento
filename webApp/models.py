@@ -79,7 +79,21 @@ class Peticion(models.Model):
         default=NEW,
         null=False
     )
+    
     Validado = models.BooleanField(null=False, default=False)
+    
+    APR = "Aprobada"
+    DEN = "Denegada"
+    ESTADO_CHOICES = [
+        (APR, "Aprobada"),
+        (DEN, "Denegada")
+    ]
+    EstadoValidacion = models.CharField(
+        max_length=8,
+        choices=ESTADO_CHOICES,
+        null=True
+    )
+    EstadoMotivo = models.TextField(null=True)
 
 class Observacion(models.Model):
     Descripcion = models.TextField()
@@ -125,7 +139,7 @@ class Candidato(models.Model):
     CentroComp = models.CharField(max_length=50, null=True)
     Convenio = models.CharField(max_length=150, null=True)
     SBA = models.TextField(null=True)
-    SIP = models.IntegerField(null=True)
+    SIP = models.CharField(max_length=12, null=True)
     TurnoInicial = models.CharField(max_length=50, null=True)
 
     EmpresaOrigen = models.CharField(max_length=100, null=True) #Modificado

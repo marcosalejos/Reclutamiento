@@ -5,8 +5,8 @@
   <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
 
   {% load static %}
-  <link rel="stylesheet" href="{% static 'admin/css/ofertas.css' %}">
-  <script src="{% static 'admin/js/ofertas.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/ofertas.css' %}">
+  <script src="{% static 'js/ofertas.js' %}"></script>
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -35,7 +35,7 @@
           <label for="search" class="form__label">Nombre o Fecha</label>
         </div>
         <div class="container_suscripcion">
-          <button onclick="newSub()">Nueva suscripción</button>
+         <!-- <button onclick="newSub()">Nueva suscripción</button> --> 
         </div>
       </section>
       
@@ -43,17 +43,16 @@
     <section class="tablas">
 
       <table id="tabla-activas" class="styled-table">
-        <colgroup>
-          <col style="width: 600px;">
-        </colgroup>
         <tr>
+          <th>ID</th>
           <th>Nombre</th>
           <th>Fecha</th>
           <th></th>
         </tr>
         {% for oferta in ofertasActivas %}
         <tr>
-          <td class="nombre_oferta">{{oferta.Nombre}}</td>
+          <td>{{oferta.id}}</td>
+          <td style="width: 500px;" class="nombre_oferta">{{oferta.Nombre}}</td>
           <td>{{oferta.lastUpdate|date:"d/m/Y"}}</td>
           <td><button>Detalles</button></td>
         </tr>
@@ -61,17 +60,16 @@
       </table>
       <div class="tabla-container">
         <table id ="tabla-inactivas" class="styled-table">
-          <colgroup>
-            <col style="width: 600px;">
-          </colgroup>
           <tr>
+            <th>ID</th>
             <th>Nombre</th>
             <th>Fecha</th>
             <th></th>
           </tr>
           {% for oferta in ofertasInactivas %}
           <tr>
-            <td class="nombre_oferta">{{oferta.Nombre}}</td>
+            <td>{{oferta.id}}</td>
+            <td style="width: 500px;" class="nombre_oferta">{{oferta.Nombre}}</td>
             <td>{{oferta.lastUpdate|date:"d/m/Y"}}</td>
             <td><button>Detalles</button></td>
           </tr>
@@ -83,7 +81,7 @@
 
   <script>
     function newSub(){
-      window.location.href = "http://192.168.2.252/suscripcion"
+      window.location.href = "http://localhost:8000/suscripcion"
     }
   </script>
 </body>

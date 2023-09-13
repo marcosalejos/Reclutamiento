@@ -9,7 +9,7 @@ function RellenarSolicitud(){
     var [id, centro] = valor.split('-');
     var [solicitante, puesto, puesto2] = texto.split('-');
     console.log(puesto, puesto2)
-    if(id == 34){ //El valor de la solicitud del Sistema, limpiar los campos Centro y Puesto
+    if(id == 38){ //El valor de la solicitud del Sistema, limpiar los campos Centro y Puesto
         centroIn.value = "";
         puestoIn.value = "";
     }else{

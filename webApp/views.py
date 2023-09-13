@@ -7,6 +7,8 @@ from datetime import date
 from .FormSolicitud import FormularioSolicitud
 from .FormObservaciones import FormularioObservaciones
 from .FormSuscriptores import FormularioSuscriptores
+from .FormValidacion import FormularioValidacion
+from .FormDetalleInforme import FormularioDetalleInforme
 import pyodbc
 import requests
 from django.shortcuts import get_object_or_404
@@ -67,6 +69,7 @@ def ofertas(request):
     ofertasActivas = cursor.fetchall()
     cursor.execute("SELECT * FROM webApp_oferta WHERE Estado = 'Inactivo'")
     ofertasInactivas = cursor.fetchall()
+    cursor.close()
     return render(request, 'ofertas.html', {'ofertasActivas': ofertasActivas, 'ofertasInactivas': ofertasInactivas})
 
 
@@ -80,19 +83,159 @@ def candidatos(request):
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_candidato")
     candidatos = cursor.fetchall()
-
+    candidatos.sort(reverse=True)
+    cursor.close()
     return render(request, 'candidatos.html', {'candidatos': candidatos})
 
-def informeCandidato(request, id):
+
+def validarSoli(request, id):
+
+    cursor = Conexion()
+    cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
+    solicitud = cursor.fetchall()
+    solicitud = solicitud[0]
+
+    if request.method == 'POST':
+        form = FormularioValidacion(request.POST)
+        if form.is_valid():
+            toggleValue = request.POST.get("rdo")
+            estadoValidacion = form.cleaned_data["EstadoValidacion"]
+            cursor.execute("UPDATE webApp_peticion SET Validado = 'True', EstadoValidacion = ?, EstadoMotivo = ? WHERE id = ?", (toggleValue, estadoValidacion, id))
+            cursor.commit()
+            cursor.close()
+            return redirect('/solicitudes')
+    else:
+        form = FormularioValidacion()
+
+
+    return render(request, 'validarSoli.html',{"form":form , "solicitud": solicitud, "solicitudID": solicitud[0]})
+
+
+def DestPlanta(Centro, CentroComp):
+
+    dest_planta = ""
+
+    if Centro == "COBOPA":
+        dest_planta = "francisco.samper@okoa.tech"
+    elif Centro == "ANITIN":
+        dest_planta = "ivan.minana@okoa.tech"
+    elif Centro == "COMEX BAKERY":
+        dest_planta = "carlos.desco@okoa.tech"
+    elif Centro == "FRESCOS DELISANO":
+        dest_planta = "enrique.verdu@okoa.tech"
+    elif Centro == "PACFREN":
+        dest_planta = "luis.malonda@okoa.tech"
+    elif Centro == "OKOA":
+        if CentroComp == "Mecanico":
+            dest_planta = "jordi.lisarde@okoa.tech"
+        elif CentroComp == "Electrico":
+            dest_planta = "patricia.peiro@okoa.tech"
+        elif CentroComp == "Ingenieria":
+            dest_planta = "rafael.noverjes@okoa.tech"
+
+    return dest_planta
+
+def detalleInforme(request, id):
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_candidato WHERE id = ?", (id))
     candidato = cursor.fetchall()
     candidato = candidato[0]
     ofertaId = candidato[14]
+    print(ofertaId)
     cursor.execute("SELECT Nombre FROM webApp_oferta WHERE id = ?", (ofertaId))
     oferta = cursor.fetchall()
+    print(oferta)
+    oferta = oferta[0][0]
+    cursor.close()
+    
+    Centro = candidato[24]
+    CentroComp = candidato[31]
 
-    ofertaNombre = oferta[0][0]
+    dest_planta = DestPlanta(Centro, CentroComp)
+    dest_asesoria = "noelia.correcher@okoa.tech"
+    dest_prl = "prevencion@okoa.tech"
+    dest_soporte = "soporte@okoa.tech"
+    mails = []
+
+    secciones = []
+
+    if request.method == 'POST':
+        form = FormularioDetalleInforme(request.POST)
+        if form.is_valid():
+            
+            if 'asesoriaMail' in request.POST:
+                mails.append(dest_asesoria)
+            else:
+                mails.append("")
+            if 'prlMail' in request.POST:
+                mails.append(dest_prl)
+            else:
+                mails.append("")
+            if 'plantaMail' in request.POST:
+                mails.append(dest_planta)
+            else:
+                mails.append("") 
+            if 'soporteMail' in request.POST:
+                mails.append(dest_soporte)
+            else:
+                mails.append("")
+
+            extraMail = form.cleaned_data["Email"]
+            mails.append(extraMail)
+
+
+            #Para comprobar el valor del Checkbox
+            if 'asesoria' in request.POST:
+                secciones.append(True)
+            else:
+                secciones.append(False)
+            
+            if 'prl' in request.POST:
+                secciones.append(True)
+            else:
+                secciones.append(False)
+
+            if 'planta' in request.POST:
+                secciones.append(True)
+            else:
+                secciones.append(False)
+
+            InformeCandidato2(candidato, oferta, mails, secciones)
+
+            return redirect('/candidatos')
+            
+    else:
+        form = FormularioDetalleInforme()
+
+    return render(request, 'detalleInforme.html', 
+                  {
+                    'form': form,
+                    'candidato': candidato,
+                    'oferta':oferta,
+                    'mailAsesoria': dest_asesoria,
+                    'mailPRL': dest_prl,
+                    'mailPlanta': dest_planta,
+                    'mailSoporte': dest_soporte
+                    })
+
+def CalendarioInc(request):
+
+    cursor = Conexion()
+    cursor.execute("SELECT id, Nombre, FechaIncorporacion FROM webApp_candidato WHERE Estado = 'Registrado'")
+    candidatos = cursor.fetchall()
+    data = []
+
+    for candidato in candidatos:
+        fecha = candidato[2].strftime("%Y-%m-%d")
+        tupla = (candidato[0], candidato[1], fecha)
+        data.append(tupla)
+
+    json_data = json.dumps(data)
+
+    return render(request, 'calendario.html', {'data': json_data})
+
+def InformeCandidato2(candidato, oferta, mails, secciones):
+
     Nombre = candidato[1]
     DNI = candidato[2]
     FechaNacimiento = candidato[3]
@@ -112,98 +255,115 @@ def informeCandidato(request, id):
     SIP = candidato[27]
     TurnoIni = candidato[30]
     
+    data_asesoria = [Nombre, DNI, SIP, FechaNacimiento, Nacionalidad, oferta, Puesto, 
+                     FechaContrata, Sociedad, Categoria, Convenio, Seccion, Centro, FechaInc, SBA,
+                     EntidadBank, IBAN]
+    
+    dataPRL = [Nombre, DNI, Sociedad, Centro, FechaInc]
+
+    dataPlanta = [Nombre, DNI, oferta, Puesto, FechaContrata, FechaInc, TurnoIni]
+
+
+    Subject = "Información Nueva Contratación"
+
+    body = IntroMsg()
+    body += AsesoriaMsg(data_asesoria)
+    body += EndMsg()
+    if mails[0] != "":
+        SendMail(body, mails[0], Subject)
+
+    if mails[4] != "":
+        if secciones[0] == True: #Asesoria
+            SendMail(body, mails[4], Subject)
+    
+    
+    body = IntroMsg()
+    body += PrlMsg(dataPRL)
+    body += EndMsg()
+    if mails[1] != "":
+        SendMail(body, mails[1], Subject)
+
+    if mails[4] != "":
+        if secciones[1] == True: #PRL
+            SendMail(body, mails[4], Subject)
+
+
+    body = IntroMsg()
+    body += PlantaMsg(dataPlanta)
+    body += EndMsg()
+    if mails[2] != "":
+        SendMail(body, mails[2], Subject)
+
+    if mails[4] != "":
+        if secciones[2] == True: #Planta
+            SendMail(body, mails[4], Subject)
+
+    body = IntroMsg()
+    body += "Por favor prepara todo el equipo necesario para la nueva incorporación." + "\n"
+    body += EndMsg()
+    if mails[3] != "":
+        SendMail(body, mails[3], Subject)
+    
+
+def IntroMsg():
     intro = ""
     hora = datetime.datetime.now().time()
     mediodia = datetime.time(14,0)
     if hora >= mediodia:
         intro = "Buenas tardes," + "\n"
     else:
-        intro = "Buenos dias," + "\n"
+        intro = "Buenos días," + "\n"
 
-    intro += "Comunicamos que se va a incorporar con nosotros un nuevo empleado, os adjunntamos los datos referentes en la ficha." + "\n\n"
+    intro += "Comunicamos que se va a incorporar con nosotros un nuevo empleado, os adjuntamos los datos referentes en la ficha." + "\n\n"
+    return intro
 
+def EndMsg():
     end = "Muchas gracias," + "\n\n"
     end += "Cualquier duda contactar con pepe.montanana@okoa.tech" + "\n\n"
     end += "Un saludo." "\n"
-
-    Subject = "Información Nueva Contratación"
-
-    body_asesoria = intro
-    body_asesoria += "Nombre completo: " + Nombre + "\n"
-    body_asesoria += "DNI: " + DNI + "\n"
-    body_asesoria += "Número SIP: " + str(SIP) + "\n"
-    body_asesoria += "Fecha de Nacimiento: " + str(FechaNacimiento) + "\n"
-    body_asesoria += "Nacionalidad: " + Nacionalidad + "\n"
-    body_asesoria += "Proceso de Selección: " + ofertaNombre + "\n\n"
-    body_asesoria += "Puesto de Trabajo: " + Puesto + "\n\n"
-    body_asesoria += "Fecha Contratación: " + str(FechaContrata) + "\n"
-    body_asesoria += "Sociedad: " + Sociedad + "\n"
-    body_asesoria += "Categoria: " + Categoria + "\n"
-    body_asesoria += "Convenio: " + Convenio + "\n"
-    body_asesoria += "Sección/Área: " + Seccion + "\n"
-    body_asesoria += "Centro de Trabajo: " + Centro + "\n"
-    body_asesoria += "Fecha de Incorporación: " + str(FechaInc) + "\n"
-    body_asesoria += "S.B.A Pactado: " + SBA + "\n"
-    body_asesoria += "Entidad Bancária: " + EntidadBank + "\n"
-    body_asesoria += "IBAN: " + str(IBAN) + "\n\n"
-    body_asesoria += end
-
-    dest_asesoria = "noelia.correcher@okoa.tech"
-    SendMail(body_asesoria, dest_asesoria, Subject)
-
-    body_prl = intro
-    body_prl += "Nombre completo: " + Nombre + "\n"
-    body_prl += "DNI: " + DNI + "\n"
-    body_prl += "Sociedad: " + Sociedad + "\n"
-    body_prl += "Centro de Trabajo: " + Centro + "\n"
-    body_prl += "Fecha de Incorporación: " + str(FechaInc) + "\n"
-    body_prl += "Puedes revisar las tallas de la ropa en Factorial" + "\n\n"
-    body_prl += end
-
-    dest_prl = "prevencion@okoa.tech"
-    SendMail(body_prl, dest_prl, Subject)
+    return end
 
 
-    body_planta = intro
-    body_planta += "Nombre completo: " + Nombre + "\n\n"
-    body_planta += "DNI: " + DNI + "\n\n"
-    body_planta += "Proceso de Selección: " + ofertaNombre + "\n\n"
-    body_planta += "Puesto de Trabajo: " + Puesto + "\n\n"
-    body_planta += "Fecha Contratación: " + str(FechaContrata) + "\n\n"
-    body_planta += "Fecha de Incorporación: " + str(FechaInc) + "\n\n"
-    body_planta += "Turno Incial: " + TurnoIni + "\n\n"
-    body_planta += end
+def AsesoriaMsg(data):
+    body_asesoria = "Nombre completo: " + data[0] + "\n"
+    body_asesoria += "DNI: " + data[1] + "\n"
+    body_asesoria += "Número SIP: " + str(data[2]) + "\n"
+    body_asesoria += "Fecha de Nacimiento: " + str(data[3]) + "\n"
+    body_asesoria += "Nacionalidad: " + data[4] + "\n"
+    body_asesoria += "Proceso de Selección: " + data[5] + "\n"
+    body_asesoria += "Puesto de Trabajo: " + data[6] + "\n"
+    body_asesoria += "Fecha Contratación: " + str(data[7]) + "\n"
+    body_asesoria += "Sociedad: " + data[8] + "\n"
+    body_asesoria += "Categoria: " + data[9] + "\n"
+    body_asesoria += "Convenio: " + data[10] + "\n"
+    body_asesoria += "Sección/Área: " + data[11] + "\n"
+    body_asesoria += "Centro de Trabajo: " + data[12] + "\n"
+    body_asesoria += "Fecha de Incorporación: " + str(data[13]) + "\n"
+    body_asesoria += "S.B.A Pactado: " + data[14] + "\n"
+    body_asesoria += "Entidad Bancária: " + data[15] + "\n"
+    body_asesoria += "IBAN: " + str(data[16]) + "\n\n"
 
+    return body_asesoria
 
-    if Centro == "COBOPA":
-        dest_planta = "francisco.samper@okoa.tech"
-    elif Centro == "ANITIN":
-        dest_planta = "ivan.minana@okoa.tech"
-    elif Centro == "COMEX BAKERY":
-        dest_planta = "carlos.desco@okoa.tech"
-    elif Centro == "FRESCOS DELISANO":
-        dest_planta = "enrique.verdu@okoa.tech"
-    elif Centro == "PACFREN":
-        dest_planta = "luis.malonda@okoa.tech"
-    elif Centro == "OKOA":
-        if CentroComp == "Mecanico":
-            dest_planta = "jordi.lisarde@okoa.tech"
-        elif CentroComp == "Electrico":
-            dest_planta = "patricia.peiro@okoa.tech"
-        elif CentroComp == "Ingenieria":
-            dest_planta = "rafael.noverjes@okoa.tech"
-    if dest_planta != "":
-        
-        SendMail(body_planta, dest_planta, Subject)
+def PrlMsg(data):
+    body_prl = "Nombre completo: " + data[0] + "\n"
+    body_prl += "DNI: " + data[1] + "\n"
+    body_prl += "Sociedad: " + data[2] + "\n"
+    body_prl += "Centro de Trabajo: " + data[3] + "\n"
+    body_prl += "Fecha de Incorporación: " + str(data[4]) + "\n"
+    body_prl += "Puede revisar las tallas de la ropa en Factorial" + "\n\n"
+    return body_prl
+
+def PlantaMsg(data):
+    body_planta = "Nombre completo: " + data[0] + "\n"
+    body_planta += "DNI: " + data[1] + "\n"
+    body_planta += "Proceso de Selección: " + data[2] + "\n"
+    body_planta += "Puesto de Trabajo: " + data[3] + "\n"
+    body_planta += "Fecha Contratación: " + str(data[4]) + "\n"
+    body_planta += "Fecha de Incorporación: " + str(data[5]) + "\n"
+    body_planta += "Turno Incial: " + data[6] + "\n\n"
+    return body_planta
     
-
-    body_soporte = intro
-    body_soporte += "Por favor prepara todo el equipo necesario para la nueva incorporación." + "\n"
-    dest_soporte = "Soporte@okoa.tech"
-    SendMail(body_soporte, dest_soporte, Subject)
-
-
-    return redirect('/candidatos')
 
 def registroCandidato(request, id):
 
@@ -214,7 +374,12 @@ def registroCandidato(request, id):
     cursor.execute("SELECT * FROM webApp_candidato WHERE id = ?", (id))
     candidato = cursor.fetchall()
     candidato = candidato[0]
-    soliID = candidato[15]
+    soliID = candidato[15] #Solicitud asignada al candidato
+    cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (soliID))
+    candidatoSolicitud = cursor.fetchall()
+    cursor.close()
+    if len(candidatoSolicitud) > 0:
+        candidatoSolicitud = candidatoSolicitud[0]
     if request.method == 'POST':
         form = FormularioCandidato(request.POST)
         if form.is_valid():
@@ -231,7 +396,7 @@ def registroCandidato(request, id):
             Domicilio = form.cleaned_data["Domicilio"]
             CP = form.cleaned_data["CP"]
             EntidadBank = form.cleaned_data["EntidadBank"]
-            IBAN = form.cleaned_data["IBAN"]
+            
             Sociedad = form.cleaned_data["Sociedad"]
             Categoria = form.cleaned_data["Categoria"]
             Seccion = form.cleaned_data["Seccion"]
@@ -245,6 +410,14 @@ def registroCandidato(request, id):
             Centro = form.cleaned_data["Centro"]
             CentroComp = form.cleaned_data["CentroComp"]
             Puesto = form.cleaned_data["Puesto"]
+
+            CodPais = form.cleaned_data["CodPais"]
+            ControlDig = form.cleaned_data["ControlDig"]
+            EntBanc = form.cleaned_data["EntBanc"]
+            SucBanc = form.cleaned_data["SucBanc"]
+            ControlDig2 = form.cleaned_data["ControlDig2"]
+            Cuenta = form.cleaned_data["Cuenta"]
+            IBAN = CodPais + str(ControlDig) + str(EntBanc) + str(SucBanc) + str(ControlDig2) + str(Cuenta)
 
             if Centro != "OKOA":
                 CentroComp = None
@@ -298,22 +471,31 @@ def registroCandidato(request, id):
             else:
                 cursor2.execute("UPDATE webApp_peticion SET Estado = 'Abierta' WHERE id = ?", (SolicitudId))
             cursor2.commit()
-
-            cursor2.execute("SELECT Vacantes, Contratados FROM webApp_peticion WHERE id = ?", (soliID))
-            data = cursor2.fetchall()
-            vacantes = data[0][0]
-            contrataciones = data[0][1]
-            if contrataciones == vacantes:
-                cursor2.execute("UPDATE webApp_peticion SET Estado = 'Cerrada' WHERE id = ?", (soliID))
-            else:
-                cursor2.execute("UPDATE webApp_peticion SET Estado = 'Abierta' WHERE id = ?", (soliID))
-            cursor2.commit()
-
+            if soliID is not None:
+                cursor2.execute("SELECT Vacantes, Contratados FROM webApp_peticion WHERE id = ?", (soliID))
+                data = cursor2.fetchall()
+                vacantes = data[0][0]
+                contrataciones = data[0][1]
+                if contrataciones == vacantes:
+                    cursor2.execute("UPDATE webApp_peticion SET Estado = 'Cerrada' WHERE id = ?", (soliID))
+                else:
+                    cursor2.execute("UPDATE webApp_peticion SET Estado = 'Abierta' WHERE id = ?", (soliID))
+                cursor2.commit()
+            cursor2.close()
             return redirect('/candidatos')
 
     else:
         initial_data = {}
         if candidato is not None:
+            iban = candidato[12]
+            if iban is not None:
+                initial_data['CodPais'] = iban[0:2]
+                initial_data['ControlDig'] = iban[2:4]
+                initial_data['EntBanc'] = iban[4:8]
+                initial_data['SucBanc'] = iban[8:12]
+                initial_data['ControlDig2'] = iban[12:14]
+                initial_data['Cuenta'] = iban[14:24]
+
             initial_data['Nombre'] = candidato[1]
             initial_data['DNI'] = candidato[2]
             initial_data['FechaNacimiento'] = candidato[3]
@@ -325,7 +507,7 @@ def registroCandidato(request, id):
             initial_data['CP'] = candidato[9]
             initial_data['Provincia'] = candidato[10]
             initial_data['EntidadBank'] = candidato[11]
-            initial_data['IBAN'] = candidato[12]
+            #initial_data['IBAN'] = candidato[12]
             initial_data['Domicilio'] = candidato[13]
             initial_data['FechaIncorporacion'] = candidato[19]
             initial_data['Puesto'] = candidato[21]
@@ -342,7 +524,7 @@ def registroCandidato(request, id):
 
         form = FormularioCandidato(initial=initial_data)
 
-    return render(request, 'registroCandidato2.html', {'form':form, 'solicitudes':solicitudes, 'candidatoID':id})
+    return render(request, 'registroCandidato2.html', {'form':form, 'solicitudes':solicitudes, 'candidatoID':id, 'candidatoSolicitud':candidatoSolicitud})
 
 
 
@@ -376,6 +558,7 @@ def solicitud(request):
             today = date.today()
             cursor.execute("INSERT INTO webApp_peticion(Solicitante, Puesto, Centro, Motivo, Vacantes, Observaciones, FechaSolicitud, Contratados, Estado, Validado) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (solicitante, puesto[0], centro, motivo, vacantes, observaciones, today, 0, "Abierta", False))
             cursor.commit()
+            cursor.close()
             destinatario = "pepe.montanana@okoa.tech"
             subject = "Nueva solicitud de personal " + str(today)
             body = solicitante + " ha enviado una nueva solicitud de personal para el puesto: " + puesto[0] + "\n\n"
@@ -389,7 +572,7 @@ def solicitud(request):
     else:
         form = FormularioSolicitud()
 
-    return render(request, 'solicitud.html', {'form': form})
+    return render(request, 'solicitud2.html', {'form': form})
 
 def observacion(request, id):
     cursor = Conexion()
@@ -403,6 +586,7 @@ def observacion(request, id):
             today = date.today()
             cursor.execute("INSERT INTO webApp_observacion VALUES (?,?,?,?)", (descripcion, today, oferta[0][0], id))
             cursor.commit()
+            cursor.close()
             return redirect('/observacionesSolicitud/' + str(id))
 
     else:
@@ -455,7 +639,17 @@ def solicitudesList(request):
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_peticion")
     solicitudes = cursor.fetchall()
+    solicitudes.sort(reverse=True)
+    cursor.close()
     return render(request, 'solicitudesList.html', {'solicitudes': solicitudes})
+
+def detalleSoli(request, id):
+    cursor = Conexion()
+    cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
+    solicitud = cursor.fetchall()
+    cursor.close()
+    solicitud = solicitud[0]
+    return render(request, 'detalleSoli.html', {'solicitud': solicitud})
 
 def deleteSolicitud(request, id):
     cursor = Conexion()
@@ -466,12 +660,14 @@ def deleteSolicitud(request, id):
         cursor.commit()
     cursor.execute("DELETE webApp_peticion WHERE id = ?", (id))
     cursor.commit()
+    cursor.close()
     return redirect('/solicitudes')
 
 def deleteObservacion(request, id, solicitudID):
     cursor = Conexion()
     cursor.execute("DELETE webApp_observacion WHERE id = ?", (id))
     cursor.commit()
+    cursor.close()
     return redirect('/observacionesSolicitud/' + str(solicitudID))
 
 
@@ -481,7 +677,6 @@ def asignarOferta(request, id):
     solicitud = cursor.fetchall()
     cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
     observaciones = cursor.fetchall()
-    print(observaciones)
     if request.method == 'POST':
         form = FormularioAsignacion(request.POST)
         if form.is_valid():
@@ -492,6 +687,7 @@ def asignarOferta(request, id):
                 for observacion in observaciones:
                     cursor.execute("UPDATE webApp_observacion SET Oferta_id = ? WHERE id = ?", (oferta, observacion[0]))
                     cursor.commit()
+            cursor.close()
             return redirect('/solicitudes')
 
     else:
@@ -505,6 +701,7 @@ def observacionesSolicitud(request, id):
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
     observaciones = cursor.fetchall()
+    cursor.close()
     observaciones = sorted(observaciones, key=lambda x: x[2], reverse=True)
     #observaciones = ["alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma", "alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma"]
     return render(request, 'observacionesSoli.html', {'observaciones':observaciones, "id":id})

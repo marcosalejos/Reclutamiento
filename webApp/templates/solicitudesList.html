@@ -4,8 +4,8 @@
   <title>Solicitudes - Okoa</title>
   <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'admin/css/solicitudes.css' %}">
-  <script src="{% static 'admin/js/solicitudesList.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/solicitudes.css' %}">
+  <script src="{% static 'js/solicitudesList.js' %}"></script>
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -30,6 +30,34 @@
       </div>
     </section>
     <section class="top_section">
+      <section class="toggleValidacion">
+        <div class="toggle">
+          <label class="switch">
+            <input onclick="FiltroValidacion()" type="checkbox" id="checkValidaciones">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="checkBtn">
+          <div class="checkVal">
+            <a id="aprobadas" onclick="MostrarFilasValidadas('Aprobada')">
+              <img style="width: 50px; height: 50px;" src="https://png.pngtree.com/png-clipart/20221012/original/pngtree-green-check-mark-icon-on-transparent-background-png-image_8679061.png" alt="OK">
+            </a>
+          </div>
+          <div class="checkVal">
+            <a id="denegadas" onclick="MostrarFilasValidadas('Denegada')">
+              <img src="{% static 'imagenes/denegada.png' %}" alt="DEN">
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="completadaSection">
+        <div class="estadoContrataBtn">
+          <a style="cursor: pointer; margin-right: 2%;" onclick="FiltroContratacion('Abierta')"><img src="{% static 'imagenes/progreso.png' %}" alt="En Proceso"></a>
+        </div>
+        <div class="estadoContrataBtn">
+          <a style="cursor: pointer;" onclick="FiltroContratacion('Cerrada')"><img src="{% static 'imagenes/victoria.png' %}" alt="Completada"></a>
+        </div>
+      </section>
       <section class="search_section">
         <div class="form__group field">
           <input type="input" onkeyup="SearchTable(solicitudes)" class="form__field" placeholder="Buscar Solicitud" name="search" id='search' required />
@@ -43,6 +71,7 @@
     <section class="tablas">
       <table id="solicitudes" class="styled-table">
         <tr>
+          <th>ID</th>
           <th>Solicitante</th>
           <th>Fecha</th>
           <th>Centro</th>
@@ -52,18 +81,31 @@
           <th>Oferta</th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
         {% for solicitud in solicitudes %}
-        <tr id="entradas">
+        <tr id="{{solicitud.EstadoValidacion}}">
+          <td>{{solicitud.id}}</td>
           <td>{{solicitud.Solicitante}}</td>
           <td>{{solicitud.FechaSolicitud|date:"d/m/Y"}}</td>
           <td id="centro">{{solicitud.Centro}}</td>
           <td>{{solicitud.Puesto}}</td>
-          <td>{{solicitud.Vacantes}}</td>
-          <td>{{solicitud.Contratados}}</td>
+          <td name="vacantes">{{solicitud.Vacantes}}</td>
+          <td name="contratados">{{solicitud.Contratados}}</td>
           <td><a class="ofertaLink" href="{% url 'asignarOferta' solicitud.id %}">{{solicitud.OfertaID_id}}</a></td>
           <td><button type="button" onclick="navigate('{{solicitud.id}}')">Observaciones</button></td>
-          <td><a href="{% url 'deleteSolicitud' solicitud.id %}"><img class="delete" src="{% static 'admin/imagenes/deleteIcon.png' %}" alt="Delete"></a></td>
+          {% if solicitud.Validado == False %}
+          <td><a href="{% url 'validarSoli' solicitud.id %}"><img class="validate" src="https://static.vecteezy.com/system/resources/previews/008/935/090/original/check-mark-and-cross-icon-isolated-on-white-background-free-vector.jpg" alt="Validar"></a></td>
+          {% endif %}
+          {% if solicitud.Validado == True %}
+          {% if solicitud.EstadoValidacion == "Aprobada" %}
+          <td><a href="{% url 'detalleSoli' solicitud.id %}"><img class="validate" src="https://png.pngtree.com/png-clipart/20221012/original/pngtree-green-check-mark-icon-on-transparent-background-png-image_8679061.png" alt="Validar"></a></td>
+          {% endif %}
+          {% if solicitud.EstadoValidacion == "Denegada" %}
+          <td><a href="{% url 'detalleSoli' solicitud.id %}"><img class="validate" src="{% static 'imagenes/denegada.png' %}" alt="Validar"></a></td>
+          {% endif %}
+          {% endif %}
+          <td name="delete"><a href="{% url 'deleteSolicitud' solicitud.id %}"><img class="delete" src="{% static 'imagenes/deleteIcon.png' %}" alt="Delete"></a></td>
         </tr>
         {% endfor %}
       </table>
@@ -72,10 +114,10 @@
 
   <script>
     function navigate(id){
-      window.location.href = "http://192.168.2.252/observacionesSolicitud/" + id;
+      window.location.href = "http://localhost:8000/observacionesSolicitud/" + id;
     }
     function newSoli(){
-      window.location.href = "http://192.168.2.252/solicitud"
+      window.location.href = "http://localhost:8000/solicitud"
     }
   </script>
 </body>

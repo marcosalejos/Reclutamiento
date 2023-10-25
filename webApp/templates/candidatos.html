@@ -54,6 +54,13 @@
             <a href="{% url 'detalleInforme' candidato.id %}"><img src="{% static 'imagenes/send-mail.png' %}" alt="SendMail"></a>
             {% endif %}
           </td>
+          <td class="mail">
+            {% if candidato.Bienvenida == 0 %}
+            <a href="{% url 'welcome' candidato.id %}"><img style="width: 70px;" src="{% static 'imagenes/welcomeFalse.png' %}" alt="Bienvenida"></a>
+            {% else %}
+            <a href="{% url 'welcome' candidato.id %}"><img style="width: 70px;" src="{% static 'imagenes/welcomeTrue.png' %}" alt="Bienvenida"></a>
+            {% endif %}
+          </td>
         </tr>
         {% endfor %}
       </table>

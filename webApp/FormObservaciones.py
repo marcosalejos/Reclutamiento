@@ -1,5 +1,4 @@
 from django import forms
-import pyodbc
 
 
 class FormularioObservaciones(forms.Form):

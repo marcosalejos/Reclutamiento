@@ -189,12 +189,12 @@
                 </div>
             </div>
         </section>
-        <section class="informe" style="height: 35%;">
-            <div class="cabecera" style="height: 16%;">
+        <section class="informe" style="height: 55%;">
+            <div class="cabecera" style="height: 11%;">
                 <h3>Persona Adicional</h3>
             </div>
             <div class="campos">
-                <form method="post" action="{% url 'detalleInforme' candidato.id %}">
+                <form method="post" action="{% url 'detalleInforme' candidato.id %}" enctype="multipart/form-data">
                     {% csrf_token %} 
                     <div class="fila_extra">
                         <div class="col_extra">
@@ -238,11 +238,31 @@
                             <input type="checkbox" name="planta" class="check planta">
                         </div>
                     </div>
+                    <div class="adjuntos_container">
+                        <div class="adjunto">
+                            <p>DNI</p>
+                            {{form.DNI}}
+                            <label for="id_DNI"><img src="{% static 'imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileDNI" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                        <div class="adjunto">
+                            <p>SIP</p>
+                            {{form.SIP}}
+                            <label for="id_SIP"><img src="{% static 'imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileSIP" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                        <div class="adjunto">
+                            <p>Titularidad Bancaria</p>
+                            {{form.Titularidad}}
+                            <label for="id_Titularidad"><img src="{% static 'imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileTit" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                    </div>
                     <div class="send_container">
                         <button type="submit">Enviar</button>
                     </div>
                 </form>
-                <div class="vacio" style="height: 5%;">
+                <div class="vacio" style="height: 3%;">
 
                 </div>
             </div>

@@ -18,3 +18,7 @@ class FormularioSolicitud(forms.Form):
     Centro = forms.ChoiceField(choices=CENTRO_CHOICES, required=True)
     Vacantes = forms.IntegerField(required=True)
     Observaciones = forms.CharField(widget=forms.Textarea, required=False)
+    FechaIncorporacion = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )

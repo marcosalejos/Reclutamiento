@@ -29,13 +29,15 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
 
           eventClick: function(info){
+            info.jsEvent.preventDefault();
             var eventObject = info.event;
 
             if(eventObject.url){
               alert(
                 eventObject.title + '\n' + 'Los datos de contratación se abrirán en una pestaña nueva'
               );
-              window.open(eventObject.url);
+              var newTab = window.open(eventObject.url, '_blank');
+              newTab.focus();
             }
             else{
               alert('Error de redirección del enlace, revise el registro del candidato');

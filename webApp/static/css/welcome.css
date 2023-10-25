@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+body{
+    height: 100vh;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+main{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top_section{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 100%;
+    width: 10%;
+}
+.logo{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 100%;
+    width: 15%;
+}
+.logo img{
+    height: 80%;
+}
+
+.home img{
+    height: 70%;
+}
+.vacio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60%;
+}
+.campos_section{
+    margin-top: 1%;
+    width: 55%;
+    height: 60%;
+    background-color: rgb(247, 247, 247);
+    border-radius: 25px;
+    box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
+}
+.cabecera{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #3dae2a;
+    height: 15%;
+    width: 100%;
+    color: white;
+    border-radius: 25px 25px 0 0;
+    font-size: 25px;
+}
+.datos_container{
+    display: flex;
+    width: 100%;
+    height: 80%;
+}
+.fila{
+    margin-left: 4%;
+    width: 100%;
+    height: 30%;
+    display: flex;
+}
+.col{
+    height: 100%;
+    width: 50%;
+}
+
+.fila p{
+    margin-left: 4%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 22px;
+    font-weight: bold;
+}
+.fila input{
+    margin-left: 4%;
+    width: 80%;
+    height: 30%;
+    font-size: 20px;
+}
+
+
+.fila_email{
+    width: 100%;
+    height: 30%;
+    display: flex;
+}
+.fila_email p{
+    margin-left: 4%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 22px;
+    font-weight: bold;
+}
+.fila_email input{
+    margin-left: 4%;
+    width: 60%;
+    height: 30%;
+    font-size: 20px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.send{
+    margin-top: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 10%;
+}
+
+.send button{
+    height: 100%;
+    width: 15%;
+    background-color: #3dae2a;
+    color: white;
+    font-size: large;
+    border-radius: 17px;
+    border: none;
+    box-shadow: 5px -5px 2px 1px rgb(192, 191, 191);
+    transition: all 0.1s;
+    cursor: pointer;
+}
+
+.send button:active{
+    translate: 3px -3px;
+    box-shadow: none;
+}

@@ -26,9 +26,15 @@
                 <h3>Resumen Solicitud {{solicitud.FechaSolicitud|date:"d/m/Y"}}</h3>
             </div>
             <div class="campos">
-                <div class="fila">
-                    <p>Solicitante</p>
-                    <input type="text" value="{{solicitud.Solicitante}}" readonly>
+                <div class="fila" style="display: flex;">
+                    <div class="columna">
+                        <p>Solicitante</p>
+                        <input style="width: 80%;" type="text" value="{{solicitud.Solicitante}}" readonly>    
+                    </div>
+                    <div class="columna">
+                        <p>Fecha Incorporación Estimada</p>
+                        <input style="width: 80%;" type="text" value="{{solicitud.FechaIncEstimada}}" readonly>
+                    </div>
                 </div>
                 <div class="fila">
                     <p>Puesto</p>
@@ -46,10 +52,14 @@
                     <p>Motivo</p>
                     <textarea cols="90" rows="5" readonly>{{solicitud.Motivo}}</textarea>
                 </div>
+                <div style="height: 24%;" class="fila_motivo">
+                    <p>Observaciones</p>
+                    <textarea style="height: 70%;" cols="90" rows="5" readonly>{{solicitud.Observaciones}}</textarea>
+                </div>
                 {% if solicitud.EstadoValidacion == "Aprobada" %}
                 <div class="fila_motivo">
                     <p>Motivo Aprobada</p>
-                    <textarea style="height: 75%;" cols="90" rows="5" readonly>{{solicitud.EstadoMotivo}}</textarea>
+                    <textarea style="height: 45%;" cols="90" rows="5" readonly>{{solicitud.EstadoMotivo}}</textarea>
                 </div>
                 {% endif %}
                 {% if solicitud.EstadoValidacion == "Denegada" %}
@@ -57,6 +67,22 @@
                     <p>Motivo Denegada</p>
                     <textarea style="height: 75%;" cols="90" rows="5" readonly>{{solicitud.EstadoMotivo}}</textarea>
                 </div>
+                {% endif %}
+                {% if solicitud.EstadoValidacion == "Aprobada" %}
+                <form action="{% url 'detalleSoli' solicitud.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="fila">
+                        <p>Fecha Revisada</p>
+                        {{form.FechaRevisada}}
+                    </div>
+                    <div class="fila_motivo">
+                        <p>Comentarios</p>
+                        {{form.Comentarios}}
+                    </div>
+                    <div class="send_container">
+                        <button type="submit">Guardar</button>
+                    </div>
+                </form>
                 {% endif %}
             </div>
         </section>

@@ -38,18 +38,19 @@
                             </div>
                             <div class="select_container">
                                 <select onchange="opcionesDesplegable()" name="puestos" id="puestos">
-                                    <option value="coordinador">Coordinador</option>
-                                    <option value="supervisor">Supervisor</option>
-                                    <option value="tecnico">Tecnico</option>
-                                    <option value="gestor">Gestor</option>
-                                    <option value="planner">Planner</option>
-                                    <option value="administrativo">Administrativo</option>
-                                    <option value="auditor">Auditor</option>
-                                    <option value="controller">Controller</option>
-                                    <option value="montador">Montador</option>
-                                    <option value="operario">Operario</option>
-                                    <option value="programador">Programador</option>
-                                    <option value="otros">Otros</option>
+                                    <option value="MTEA">MTEA</option>
+                                    <option value="Metodologia"> Metodologia y Datos</option>
+                                    <option value="Ing_Mec">Ingeniería Mecánica</option>
+                                    <option value="Ing_Aut">Ingeniería Automatización</option>
+                                    <option value="Fab_Mec">Fabricación Mecánica</option>
+                                    <option value="Ing_Elec">Ingeniería Eléctrica</option>
+                                    <option value="Fab_Elec">Fabricación Eléctrica</option>
+                                    <option value="Administracion">Administracion y Finanzas</option>
+                                    <option value="TI">TI</option>
+                                    <option value="Comercial">Comercial</option>
+                                    <option value="Compras">Compras y Aprovisionamiento</option>
+                                    <option value="VyP">Valores y Personas</option>
+                                    <option value="PRL">PRL</option>
                                   </select>
                             </div>
                         </div>
@@ -79,6 +80,12 @@
                             <h3>Centro</h3>
                             <div class="input">
                                 {{ form.Centro }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h3>Fecha Incorporación Estimada</h3>
+                            <div class="input">
+                                {{ form.FechaIncorporacion }}
                             </div>
                         </div>
                     </div>

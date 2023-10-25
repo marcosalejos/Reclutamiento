@@ -7,34 +7,34 @@
     <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
     <link rel="stylesheet" href="{% static 'css/observacion.css' %}">
     <script src="{% static 'js/observacion.js' %}"></script>
-
 </head>
-
 <body>
     <main>
-        <div class="header">
-            <div class="home_icon">
+        <section class="top_section">
+            <div class="home">
                 <a href="{% url 'observacionesSolicitud' id %}">
-                    <img src="{% static 'imagenes/flecha.png' %}" alt="Back">
+                    <img src="{% static 'imagenes/flechaAzul.png' %}" alt="Back">
                 </a>
             </div>
-            <div class="logo">
-                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
+            <div class="vacio">
             </div>
-        </div>
-        <section class="section-container">
-            <div class="div-title"><h1>Nueva Observación</h1></div>
-            <form id="formulario" method="post" action="{% url 'observacion' id %}">
-                {% csrf_token %}
-                <div class="div-container">
-                    {{ form.Descripcion }}
-                </div>
-                <div class="send">
-                    <button type="submit"">Enviar</button>
-                </div>
-            </form>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
         </section>
+        <form action="" method="post">
+            {% csrf_token %}
+            <section class="datos_section">
+                <div class="cabecera">
+                    <h3>Nueva Observación</h3>
+                </div>
+                <div class="campos_container">
+                    {{form.Descripcion}}
+                </div>
+                <div class="container_send">
+                    <button type="submit">Guardar</button>
+                </div>
+            </section>
+        </form>
     </main>
-
-    
 </body>

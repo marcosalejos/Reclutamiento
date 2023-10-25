@@ -1,51 +1,63 @@
-var opcionesCoordinador = [
-    "Coordinador/a de Mantenimiento"
+var opcionesMTEA = [
+    "Coordinador (Plantas)",
+    "Planner (Planta)",
+    "Supervisor Producción (Plantas)",
+    "Supervisor Instalaciones (Plantas)",
+    "Técnico de Mantenimiento Electromecánico",
+    "Técnico de Montaje y Mantenimiento Electromecánico",
+    "Técnico de Instalaciones",
+    "Gestor de Compras / Almacén"
 ]
-var opcionesSupervisor = [
-    "Supervisor/a de Mantenimiento",
-    "Supervisor/a de Mantenimiento Electromecánico"
+var opcionesMet = [
+    "Coordinador Procesos, Metodología y Datos",
+    "Ingeniero Procesos, Metodología y Datos"
 ]
-var opcionesTecnico = [
-    "Técnico/a de Mantenimiento Electromecánico - Líneas",
-    "Técnico/a de Mantenimiento Electromecánico - Instalaciones",
-    "Técnico/a de Desarrollo Informático",
-    "Técnico/a de Mantenimiento de Instalaciones",
-    "Técnico/a de Montaje y Mantenimiento Electromecánico",
-    "Técnico/a de PRL (Seguridad y Salud)",
-    "Técnico/a de Sistemas",
-    "Técnico/a Frigorista Industrial",
-    "Técnico/a de Reclutamiento y Selección"
+var opcionesIngMec = [
+    "Coordinador Ingeniería Mecánica",
+    "Ingeniero Mecánico",
+    "Delineante"
 ]
-var opcionesGestor = [
-    "Gestor/a de Almacén"
+var opcionesIngAut = [
+    "Coordinador Ingeniería Automatización",
+    "Jefe de Equipo Automatización",
+    "Ingeniero de Automatización"
 ]
-var opcionesPlanner = [
-    "Planner de Mantenimiento"
+var opcionesFabMec = [
+    "Coordinador Fabricación Mecánica",
+    "Responsable de Fabricación",
+    "Jefe de Equipo - Fabricación",
+    "Técnico Mecánico de Montaje y Mantenimiento ",
+    "Técnico Granalladora"
 ] 
-var opcionesAdministrativo = [
-    "Administrativo/a CAE",
-    "Administrativo/a de Operaciones - Planta",
-    "Administrativo/a Laboral y PRL",
-    "Administrativo/a Contable"
+var opcionesIngEl = [
+    "Ingeniero Eléctrico"
 ] 
-var opcionesAuditor = [
-    "Auditor/a"
+var opcionesFabEl = [
+    "Técnico Electromecánico de Montaje y Mantenimiento "
 ]
-var opcionesController = [
-    "Controller Financiero"
+var opcionesAdmin = [
+    "Coordinador de Administración y Finanzas",
+    "Técnico de Administración y Finanzas"
 ] 
-var opcionesMontador = [
-    "Montador/a"
+var opcionesTI = [
+    "Coordinador de TI",
+    "Ingeniero de TI"
 ]
-var opcionesOperario = [
-    "Operario/a de Fabricación"
+var opcionesComercial = [
+    "Técnico Comercial "
 ]
-var opcionesProgramador = [
+var opcionesCompras = [
+    "Técnico de Compras y Aprovisionamiento ",
+    "Gestor de Almacén"
+]
+var opcionesVYP = [
+    "Coordinador de Valores y Personas",
+    "Técnico de Valores y Personas"
+]
 
-    "Programador/a PLC"
-]
-var opcionesOtros = [
-    "Otros"
+var opcionesPRL = [
+    "Coordinador de PRL",
+    "Técnico de PRL" 
 ]
 
 function opcionesDesplegable(){
@@ -59,18 +71,19 @@ function opcionesDesplegable(){
 
     if (optionValue !== "") {
         const opciones = {
-            coordinador: opcionesCoordinador,
-            supervisor: opcionesSupervisor,
-            tecnico: opcionesTecnico,
-            gestor: opcionesGestor,
-            planner: opcionesPlanner,
-            administrativo: opcionesAdministrativo,
-            auditor: opcionesAuditor,
-            controller: opcionesController,
-            montador: opcionesMontador,
-            operario: opcionesOperario,
-            programador: opcionesProgramador,
-            otros: opcionesOtros
+            MTEA: opcionesMTEA,
+            Metodologia: opcionesMet,
+            Ing_Mec: opcionesIngMec,
+            Ing_Aut: opcionesIngAut,
+            Fab_Mec: opcionesFabMec,
+            Ing_Elec: opcionesIngEl,
+            Fab_Elec: opcionesFabEl,
+            Administracion: opcionesAdmin,
+            TI: opcionesTI,
+            Comercial: opcionesComercial,
+            Compras: opcionesCompras,
+            VyP: opcionesVYP,
+            PRL: opcionesPRL
         };
 
         const selectedOpciones = opciones[optionValue];
@@ -84,3 +97,7 @@ function opcionesDesplegable(){
     }
 
 }
+
+window.addEventListener('DOMContentLoaded', function() {
+    opcionesDesplegable();
+});

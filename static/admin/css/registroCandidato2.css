@@ -1,6 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
 body{
     height: auto;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
+
 }
 main{
     height: 100%;
@@ -9,7 +14,7 @@ main{
     align-items: center;
 }
 .top_section{
-    height: 20%;
+    height: 10%;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -17,31 +22,30 @@ main{
 .home{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     height: 100%;
-    width: 20%;
-
+    width: 10%;
 }
 .logo{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: start;
+    align-items: end;
     height: 100%;
-    width: 60%;
+    width: 15%;
 }
 .logo img{
     height: 80%;
 }
 
 .home img{
-    height: 40%;
+    height: 70%;
 }
 .vacio{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 20%;
+    width: 60%;
 }
 form{
     margin-top: 2%;
@@ -51,14 +55,14 @@ form{
 .datos_section{
     height: 100%;
     width: 100%;
-    background-color: rgb(242, 236, 236);
+    background-color: rgb(247, 247, 247);
     box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
     border-radius: 17px;
 }
 .banco_section{
     width: 100%;
     height: 50%;
-    background-color: rgb(242, 236, 236);
+    background-color: rgb(247, 247, 247);
     box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
     border-radius: 17px;
 }
@@ -113,6 +117,36 @@ form{
     width: 100%;
     height: 33%;
 }
+
+.fila_jornada{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 90%;
+}
+
+.fila_jornada input{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+.fila_jornada p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila_jornada select{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+
 
 .fila_banc{
     display: flex;
@@ -177,6 +211,22 @@ form{
     justify-content: start;
     align-items: center;
 }
+
+.cont_sba{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 30%;
+}
+
+.cont_sba p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
 
 .fila_sba{
     width: 90%;
@@ -264,3 +314,43 @@ form{
     margin-left: 1%;
 }
 
+.iban{
+    width: 100%;
+    height: 55%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.col2{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 6%;
+}
+.col2 input{
+    height: 70%;
+    width: 100%;
+}
+
+.col4{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 11%;
+}
+.col4 input{
+    height: 70%;
+    width: 100%;
+}
+
+.col10{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+}
+.col10 input{
+    height: 70%;
+    width: 100%;
+}

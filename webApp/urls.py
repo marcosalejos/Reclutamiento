@@ -17,5 +17,6 @@ urlpatterns = [
     path('validarSolicitud/<id>', views.validarSoli, name='validarSoli'),
     path('detalleSoli/<id>', views.detalleSoli, name='detalleSoli'),
     path('detalleInforme/<id>', views.detalleInforme, name='detalleInforme'),
-    path('calendario', views.CalendarioInc, name='calendario')
+    path('calendario', views.CalendarioInc, name='calendario'),
+    path('welcome/<id>', views.welcome, name='welcome')
 ]

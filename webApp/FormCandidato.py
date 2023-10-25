@@ -19,6 +19,10 @@ class FormularioCandidato(forms.Form):
         ("Electrico", "Electrico"),
         ("Ingenieria", "Ingenieria")
     )
+    JORNADA_CHOICES = (
+        ("Parcial", "Parcial"),
+        ("Completa", "Completa")
+    )
 
 
     DNI = forms.CharField(max_length=9, required=True)
@@ -59,3 +63,5 @@ class FormularioCandidato(forms.Form):
     Puesto = forms.CharField(max_length=200, required=True)
 
     TurnoInicial = forms.ChoiceField(choices=TURNO_CHOICES, required=True)
+    Jornada = forms.ChoiceField(choices=JORNADA_CHOICES, required=True)
+    Horas = forms.IntegerField(required=True)

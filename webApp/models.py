@@ -94,6 +94,9 @@ class Peticion(models.Model):
         null=True
     )
     EstadoMotivo = models.TextField(null=True)
+    FechaIncEstimada = models.DateField(null=True)
+    Comentarios = models.TextField(null=True)
+    FechaIncRevisada = models.DateField(null=True)
 
 class Observacion(models.Model):
     Descripcion = models.TextField()
@@ -147,6 +150,9 @@ class Candidato(models.Model):
     Puesto = models.CharField(max_length=200, null=True) #Modificado
     FechaIncorporacion = models.DateField(null=True) #Modificado
     FechaIncorporacionEstimada = models.DateField(null=True) #Modificado
+    Jornada = models.CharField(max_length=10, null=True)#Modificado
+    Horas = models.IntegerField(null=True)#Modificado
+    Bienvenida = models.BooleanField(null=True)#Modificado
 
 class Externo(models.Model):
     DNI = models.CharField(max_length=9, null=True) 

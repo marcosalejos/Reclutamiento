@@ -160,9 +160,27 @@
                     
                     </div>
                     <div class="container_inf">
-                        <div class="fila_sba">
-                            <p>S.B.A Pactado</p>
-                            {{form.SBA}}
+                        <div class="cont_sba">
+                            <div class="columna" style="width: 50%;">
+                                <div class="fila_jornada" style="height: 90%;">
+                                    <p>S.B.A Pactado</p>
+                                    {{form.SBA}}
+                                </div>
+                            </div>
+                            <div class="columna" style="width: 50%; display: flex; flex-direction: row;">
+                                <div class="columna" style="width: 50%;">
+                                    <div class="fila_jornada">
+                                        <p>Jornada</p>
+                                        {{form.Jornada}}
+                                    </div>
+                                </div>
+                                <div class="columna" style="width: 40%;">
+                                    <div class="fila_jornada">
+                                        <p>Horas</p>
+                                        {{form.Horas}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="fila_sba">
                             <p>Solicitud</p>

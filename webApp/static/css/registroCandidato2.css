@@ -118,6 +118,36 @@ form{
     height: 33%;
 }
 
+.fila_jornada{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 90%;
+}
+
+.fila_jornada input{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+.fila_jornada p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila_jornada select{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+
+
 .fila_banc{
     display: flex;
     flex-direction: column;
@@ -181,6 +211,22 @@ form{
     justify-content: start;
     align-items: center;
 }
+
+.cont_sba{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 30%;
+}
+
+.cont_sba p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
 
 .fila_sba{
     width: 90%;

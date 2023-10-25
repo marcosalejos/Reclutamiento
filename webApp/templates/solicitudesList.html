@@ -30,32 +30,18 @@
       </div>
     </section>
     <section class="top_section">
-      <section class="toggleValidacion">
-        <div class="toggle">
-          <label class="switch">
-            <input onclick="FiltroValidacion()" type="checkbox" id="checkValidaciones">
-            <span class="slider"></span>
-          </label>
+      <section class="filtros_section">
+        <div class="filtro_container">
+          <a onclick="Pendientes()" id="pendBTN" style="background-color: #edaf06">PENDIENTES</a>
         </div>
-        <div class="checkBtn">
-          <div class="checkVal">
-            <a id="aprobadas" onclick="MostrarFilasValidadas('Aprobada')">
-              <img style="width: 50px; height: 50px;" src="https://png.pngtree.com/png-clipart/20221012/original/pngtree-green-check-mark-icon-on-transparent-background-png-image_8679061.png" alt="OK">
-            </a>
-          </div>
-          <div class="checkVal">
-            <a id="denegadas" onclick="MostrarFilasValidadas('Denegada')">
-              <img src="{% static 'imagenes/denegada.png' %}" alt="DEN">
-            </a>
-          </div>
+        <div class="filtro_container">
+          <a onclick="Validadas()" id="valBTN" style="background-color: #004a98;">VALIDADAS</a>
         </div>
-      </section>
-      <section class="completadaSection">
-        <div class="estadoContrataBtn">
-          <a style="cursor: pointer; margin-right: 2%;" onclick="FiltroContratacion('Abierta')"><img src="{% static 'imagenes/progreso.png' %}" alt="En Proceso"></a>
+        <div class="filtro_container">
+          <a onclick="Finalizadas()" id="finBTN" style="background-color: #3dae2a;">FINALIZADAS</a>
         </div>
-        <div class="estadoContrataBtn">
-          <a style="cursor: pointer;" onclick="FiltroContratacion('Cerrada')"><img src="{% static 'imagenes/victoria.png' %}" alt="Completada"></a>
+        <div class="filtro_container">
+          <a onclick="Descartadas()" id="descBTN" style="background-color: red;">DENEGADAS</a>
         </div>
       </section>
       <section class="search_section">
@@ -66,6 +52,11 @@
       </section>
       <section class="solicitud_section">
         <button onclick="newSoli()">Nueva Solicitud</button>
+      </section>
+      <section class="excel_section">
+        <a onclick="exportarAExcel()">
+          <img src="{% static 'imagenes/Excel.jpg' %}" alt="Excel">
+        </a>
       </section>
     </section>
     <section class="tablas">
@@ -120,4 +111,5 @@
       window.location.href = "http://localhost:8000/solicitud"
     }
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
 </body>

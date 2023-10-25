@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
 body{
     height: 100vh;
     margin: 0;
     position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
   }
   
@@ -119,11 +122,6 @@ body{
     background-color: #f9f9f9;
   }
   
-  
-  
-  .styled-table colgroup col:first-child {
-    width: 500px;
-  }
   
   button{
     border: none;

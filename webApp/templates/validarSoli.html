@@ -26,26 +26,41 @@
                 <h3>Resumen Solicitud {{solicitud.FechaSolicitud|date:"d/m/Y"}}</h3>
             </div>
             <div class="campos">
-                <div class="fila">
-                    <p>Solicitante</p>
-                    <input type="text" value="{{solicitud.Solicitante}}" readonly>
+                <div class="fila" style="display: flex; margin-left: 0;">
+                    <div class="columna">
+                        <p>Solicitante</p>
+                        <input type="text" value="{{solicitud.Solicitante}}" readonly style="width: 80%;">
+                    </div>
+                    <div class="columna">
+                        <p>Fecha Incorporación Estimada</p>
+                        <input style="width: 80%;" type="number" value="{{solicitud.FechaIncEstimada}}" readonly>
+                    </div>
                 </div>
                 <div class="fila">
                     <p>Puesto</p>
                     <input style="width: 80%;" type="text" value="{{solicitud.Puesto}}" readonly>
                 </div>
-                <div class="fila">
-                    <p>Centro</p>
-                    <input type="text" value="{{solicitud.Centro}}" readonly>
-                </div>
-                <div class="fila">
-                    <p>Vacantes</p>
-                    <input type="number" value="{{solicitud.Vacantes}}" readonly>
+                <div class="fila" style="display: flex; margin-left: 0;">
+                    <div class="columna">
+                        <p>Centro</p>
+                        <input type="text" value="{{solicitud.Centro}}" readonly style="width: 80%;">
+                    </div>
+                    <div class="columna">
+                        <p>Vacantes</p>
+                        <input type="number" value="{{solicitud.Vacantes}}" readonly>
+                    </div>
                 </div>
                 <div class="fila_motivo">
                     <p>Motivo</p>
                     <textarea cols="90" rows="5" readonly>{{solicitud.Motivo}}</textarea>
                 </div>
+                <div class="fila_motivo">
+                    <p>Observaciones</p>
+                    <textarea cols="90" rows="5" readonly>{{solicitud.Observaciones}}</textarea>
+                </div>
+            </div>
+            <div class="separador">
+
             </div>
             <section class="estado">
                 <form method="post" action="{% url 'validarSoli' solicitudID %}">

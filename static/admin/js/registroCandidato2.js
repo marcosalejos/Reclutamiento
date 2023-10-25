@@ -9,7 +9,7 @@ function RellenarSolicitud(){
     var [id, centro] = valor.split('-');
     var [solicitante, puesto, puesto2] = texto.split('-');
     console.log(puesto, puesto2)
-    if(id == 34){ //El valor de la solicitud del Sistema, limpiar los campos Centro y Puesto
+    if(id == 38){ //El valor de la solicitud del Sistema, limpiar los campos Centro y Puesto
         centroIn.value = "";
         puestoIn.value = "";
     }else{
@@ -28,3 +28,24 @@ function RellenarSolicitud(){
     }
     
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+    const jornadaSelect = document.getElementById("id_Jornada");
+    var horas = document.getElementById("id_Horas");
+    if(jornadaSelect.value == "Completa"){
+        horas.readOnly = true;
+    }
+    if(jornadaSelect){
+        jornadaSelect.addEventListener("change", function(){
+            let jornadaValue = jornadaSelect.value;
+            if(jornadaValue == "Completa"){
+                horas.value = 8;
+                horas.readOnly = true;
+            }
+            else{
+                horas.value = 6;
+                horas.readOnly = false;
+            }
+        })
+    }
+});

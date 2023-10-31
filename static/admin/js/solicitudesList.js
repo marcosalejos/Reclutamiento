@@ -60,6 +60,20 @@ function exportarAExcel() {
 }
   
 
+function Finalizadas(){
+    let filas = document.getElementsByTagName('tr');
+    for(let i = 1; i < filas.length; i++){
+        let fila = filas[i].querySelectorAll('td');
+        let vacantes = fila[5].innerText;
+        let contratas = fila[6].innerText;
+        if(filas[i].getAttribute('id') == 'Aprobada' && contratas >= vacantes){
+            fila[0].style.backgroundColor = '#3dae2a';
+            fila[0].style.color = 'white';
+
+        }
+    }
+
+}
 
 function Pendientes(){
     let pend = document.getElementById('pendBTN');

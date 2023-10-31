@@ -76,7 +76,7 @@
         </tr>
         {% for solicitud in solicitudes %}
         <tr id="{{solicitud.EstadoValidacion}}">
-          <td>{{solicitud.id}}</td>
+          <td id="identificador">{{solicitud.id}}</td>
           <td>{{solicitud.Solicitante}}</td>
           <td>{{solicitud.FechaSolicitud|date:"d/m/Y"}}</td>
           <td id="centro">{{solicitud.Centro}}</td>

@@ -167,7 +167,7 @@ def validarSoli(request, id):
     if request.method == 'POST':
         form = FormularioValidacion(request.POST)
         if form.is_valid():
-            destinatario = 'pepe.montanana@okoa.tech'
+            destinatario = 'valoresypersonas@okoa.tech'
             toggleValue = request.POST.get("rdo")
             subject = "Solicitud " + str(id) + toggleValue
             body = "La solicitud de " + solicitante + " para el puesto " + puesto + " en el centro " + centro + " ha sido " + toggleValue

@@ -14,7 +14,7 @@ class FormularioSolicitud(forms.Form):
         ('Otro', 'Otro'),
     )
 
-    Solicitante = forms.CharField(max_length=200, required=True)
+    #Solicitante = forms.CharField(max_length=200, required=True, widget=forms.TextInput(attrs={'readonly':'readonly'}))
     Centro = forms.ChoiceField(choices=CENTRO_CHOICES, required=True)
     Vacantes = forms.IntegerField(required=True)
     Observaciones = forms.CharField(widget=forms.Textarea, required=False)

@@ -20,7 +20,24 @@ import datetime
 import os
 import shutil
 
+ms_identity_web = settings.MS_IDENTITY_WEB
 
+
+adminList = ["Marcos Alejos","Reijer Domingo", "Miguel Rodriguez", "Pepe Montanana", "Liliana Gilbert"]
+
+solicitanteList = ["Patricia Peiro", "Jesús Ormeño"]
+
+#LOGIN
+def index(request):
+    if request.identity_context_data.authenticated:
+        nombre = request.identity_context_data.username
+        if nombre in adminList or nombre in solicitanteList:
+            return redirect('home')
+        else:
+            return render(request, 'auth/401.html', {'nombre': nombre})
+    else:
+        return render(request, "login.html")
+    
 def MailErrorLog(destinatario):
     log = open("C:/Reclutamiento/mail_log.txt", "a")
     now = datetime.datetime.now()
@@ -131,7 +148,12 @@ def Conexion():
     cursor = conexion.cursor()
     return cursor
 
+@ms_identity_web.login_required
 def ofertas(request):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
     
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_oferta WHERE Estado = 'Activo'")
@@ -139,23 +161,38 @@ def ofertas(request):
     cursor.execute("SELECT * FROM webApp_oferta WHERE Estado = 'Inactivo'")
     ofertasInactivas = cursor.fetchall()
     cursor.close()
-    return render(request, 'ofertas.html', {'ofertasActivas': ofertasActivas, 'ofertasInactivas': ofertasInactivas})
+    return render(request, 'auth/ofertas.html', {'ofertasActivas': ofertasActivas, 'ofertasInactivas': ofertasInactivas, 'nombre':nombre, 'adminList':adminList})
 
+@ms_identity_web.login_required
 def home(request):
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
 
-    return render(request, 'home.html')
+    return render(request, 'auth/home.html', {'nombre': nombre, 'adminList':adminList})
 
+@ms_identity_web.login_required
 def candidatos(request):
 
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_candidato")
     candidatos = cursor.fetchall()
     candidatos.sort(reverse=True)
     cursor.close()
-    return render(request, 'candidatos.html', {'candidatos': candidatos})
+    return render(request, 'auth/candidatos.html', {'candidatos': candidatos})
 
+@ms_identity_web.login_required
 def validarSoli(request, id):
 
+    nombre = request.identity_context_data.username
+    if nombre != "Reijer Domingo" and nombre != "Marcos Alejos":
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
     solicitud = cursor.fetchall()
@@ -181,7 +218,7 @@ def validarSoli(request, id):
         form = FormularioValidacion()
 
 
-    return render(request, 'validarSoli.html',{"form":form , "solicitud": solicitud, "solicitudID": solicitud[0]})
+    return render(request, 'auth/validarSoli.html',{"form":form , "solicitud": solicitud, "solicitudID": solicitud[0]})
 
 def DestPlanta(Centro, CentroComp):
 
@@ -207,7 +244,13 @@ def DestPlanta(Centro, CentroComp):
 
     return dest_planta
 
+@ms_identity_web.login_required
 def detalleInforme(request, id):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_candidato WHERE id = ?", (id))
     candidato = cursor.fetchall()
@@ -222,7 +265,7 @@ def detalleInforme(request, id):
     CentroComp = candidato[31]
 
     dest_planta = DestPlanta(Centro, CentroComp)
-    dest_asesoria = "valoresypersonas@okoa.tech"
+    dest_asesoria = "liliana.gilabert@okoa.tech"
     dest_prl = "prevencion@okoa.tech"
     dest_soporte = "soporte@okoa.tech"
     mails = []
@@ -244,7 +287,6 @@ def detalleInforme(request, id):
             except:
                 adjuntos.append(None)
             try:
-
                 file_titularidad = request.FILES['Titularidad']
                 adjuntos.append(file_titularidad)
             except:
@@ -304,7 +346,7 @@ def detalleInforme(request, id):
     else:
         form = FormularioDetalleInforme()
 
-    return render(request, 'detalleInforme.html', 
+    return render(request, 'auth/detalleInforme.html', 
                   {
                     'form': form,
                     'candidato': candidato,
@@ -315,7 +357,12 @@ def detalleInforme(request, id):
                     'mailSoporte': dest_soporte
                     })
 
+@ms_identity_web.login_required
 def CalendarioInc(request):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
 
     cursor = Conexion()
     cursor.execute("SELECT id, Nombre, FechaIncorporacion FROM webApp_candidato WHERE Estado = 'Registrado'")
@@ -329,7 +376,7 @@ def CalendarioInc(request):
 
     json_data = json.dumps(data)
 
-    return render(request, 'calendario.html', {'data': json_data})
+    return render(request, 'auth/calendario.html', {'data': json_data})
 
 def InformeCandidato2(candidato, oferta, mails, secciones, rutas):
 
@@ -464,16 +511,25 @@ def PlantaMsg(data):
     body_planta += "Fecha de Incorporación: " + str(data[5]) + "\n"
     body_planta += "Turno Incial: " + data[6] + "\n\n"
     return body_planta
-    
+
+@ms_identity_web.login_required 
 def registroCandidato(request, id):
 
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+
     cursor = Conexion()
-    cursor.execute("SELECT * FROM webApp_peticion WHERE Estado = 'Abierta' and EstadoValidacion = 'Aprobada'")
-    solicitudes = cursor.fetchall()
     
     cursor.execute("SELECT * FROM webApp_candidato WHERE id = ?", (id))
     candidato = cursor.fetchall()
     candidato = candidato[0]
+    ofertaID = candidato[14] #Oferta desde la que se contrata
+
+    cursor.execute("SELECT * FROM webApp_peticion WHERE Estado = 'Abierta' and EstadoValidacion = 'Aprobada' and OfertaID_id = ?", (ofertaID))
+    solicitudes = cursor.fetchall()
+    print(solicitudes)
+
     soliID = candidato[15] #Solicitud asignada al candidato
     cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (soliID))
     candidatoSolicitud = cursor.fetchall()
@@ -528,6 +584,7 @@ def registroCandidato(request, id):
             cursor2 = Conexion()
             cursor2.execute("SELECT Puesto FROM webApp_peticion WHERE id = ?", (SolicitudId))
             puesto = cursor2.fetchall()
+            print(puesto)
             puesto = puesto[0][0]
             if soliID is None:
                 cursor2.execute("UPDATE webApp_peticion SET Contratados = Contratados + 1 WHERE id = ?", (SolicitudId))
@@ -632,10 +689,15 @@ def registroCandidato(request, id):
 
         form = FormularioCandidato(initial=initial_data)
 
-    return render(request, 'registroCandidato2.html', {'form':form, 'solicitudes':solicitudes, 'candidatoID':id, 'candidatoSolicitud':candidatoSolicitud})
+    return render(request, 'auth/registroCandidato2.html', {'form':form, 'solicitudes':solicitudes, 'candidatoID':id, 'candidatoSolicitud':candidatoSolicitud})
 
+@ms_identity_web.login_required
 def solicitud(request):
 
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     if request.method == 'POST':
         form = FormularioSolicitud(request.POST)
         
@@ -654,7 +716,7 @@ def solicitud(request):
                 "option8": "Otras"
             }
 
-            solicitante = form.cleaned_data['Solicitante']
+            solicitante = nombre
             centro = form.cleaned_data['Centro']
             vacantes = form.cleaned_data['Vacantes']
             observaciones = form.cleaned_data['Observaciones']
@@ -689,9 +751,15 @@ def solicitud(request):
     else:
         form = FormularioSolicitud()
 
-    return render(request, 'solicitud2.html', {'form': form})
+    return render(request, 'auth/solicitud2.html', {'form': form, 'nombre': nombre})
 
+@ms_identity_web.login_required
 def observacion(request, id):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT OfertaID_id FROM webApp_peticion WHERE id = ?", (id))
     oferta = cursor.fetchall()
@@ -709,8 +777,9 @@ def observacion(request, id):
     else:
         form = FormularioObservaciones()
 
-    return render(request, 'observacion.html', {'form': form, "id": id})
+    return render(request, 'auth/observacion.html', {'form': form, "id": id})
 
+@ms_identity_web.login_required
 def suscripciones(request):
     if request.method == 'POST':
         form = FormularioSuscriptores(request.POST)
@@ -748,17 +817,35 @@ def suscripciones(request):
     else:
         form = FormularioSuscriptores()
 
-    return render(request, 'suscripciones.html', {'form': form})
+    return render(request, 'auth/suscripciones.html', {'form': form})
 
+@ms_identity_web.login_required
 def solicitudesList(request):
-    cursor = Conexion()
-    cursor.execute("SELECT * FROM webApp_peticion")
-    solicitudes = cursor.fetchall()
-    solicitudes.sort(reverse=True)
-    cursor.close()
-    return render(request, 'solicitudesList.html', {'solicitudes': solicitudes})
 
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
+    cursor = Conexion()
+    
+    if nombre in adminList:
+        cursor.execute("SELECT * FROM webApp_peticion")
+        solicitudes = cursor.fetchall()
+        solicitudes.sort(reverse=True)
+    elif nombre in solicitanteList:
+        cursor.execute("SELECT * FROM webApp_peticion WHERE Solicitante = ?", (nombre))
+        solicitudes = cursor.fetchall()
+        solicitudes.sort(reverse=True)
+    cursor.close()
+    return render(request, 'auth/solicitudesList.html', {'solicitudes': solicitudes, 'nombre':nombre, 'adminList':adminList})
+
+@ms_identity_web.login_required
 def detalleSoli(request, id):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
     solicitud = cursor.fetchall()
@@ -781,9 +868,15 @@ def detalleSoli(request, id):
             initial_data['Comentarios'] = solicitud[14]
             form = FormularioDetalleSoli(initial=initial_data)
 
-    return render(request, 'detalleSoli.html', {'form': form, 'solicitud': solicitud})
+    return render(request, 'auth/detalleSoli.html', {'form': form, 'solicitud': solicitud})
 
+@ms_identity_web.login_required
 def deleteSolicitud(request, id):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
     observaciones = cursor.fetchall()
@@ -795,14 +888,26 @@ def deleteSolicitud(request, id):
     cursor.close()
     return redirect('/solicitudes')
 
+@ms_identity_web.login_required
 def deleteObservacion(request, id, solicitudID):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+
     cursor = Conexion()
     cursor.execute("DELETE webApp_observacion WHERE id = ?", (id))
     cursor.commit()
     cursor.close()
     return redirect('/observacionesSolicitud/' + str(solicitudID))
 
+@ms_identity_web.login_required
 def asignarOferta(request, id):
+
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_peticion WHERE id = ?", (id))
     solicitud = cursor.fetchall()
@@ -825,20 +930,30 @@ def asignarOferta(request, id):
         form = FormularioAsignacion()
             
     
-    return render(request, 'asignarOferta.html', {'solicitud':solicitud[0], 'form':form})
+    return render(request, 'auth/asignarOferta.html', {'solicitud':solicitud[0], 'form':form})
 
+@ms_identity_web.login_required
 def observacionesSolicitud(request, id):
 
+    nombre = request.identity_context_data.username
+    if nombre not in adminList and nombre not in solicitanteList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+    
     cursor = Conexion()
     cursor.execute("SELECT * FROM webApp_observacion WHERE Solicitud_id = ?", (id))
     observaciones = cursor.fetchall()
     cursor.close()
     observaciones = sorted(observaciones, key=lambda x: x[2], reverse=True)
     #observaciones = ["alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma", "alksdnlas", "aslkhdjasl", "Alsdhas", "ñlaksd", "Askdma"]
-    return render(request, 'observacionesSoli.html', {'observaciones':observaciones, "id":id})
+    return render(request, 'auth/observacionesSoli.html', {'observaciones':observaciones, "id":id, 'nombre':nombre, 'adminList':adminList})
 
+@ms_identity_web.login_required
 def welcome(request, id):
     
+    nombre = request.identity_context_data.username
+    if nombre not in adminList:
+        return render(request, 'auth/401.html', {'nombre': nombre})
+
     cursor = Conexion()
     cursor.execute("SELECT id, Nombre, DNI, Mail FROM webApp_candidato WHERE id = ?", (id))
     candidato = cursor.fetchall()
@@ -864,4 +979,4 @@ def welcome(request, id):
             initial_data['Mail'] = candidato[3]
         form = FormularioBienvenida(initial=initial_data)
         
-    return render(request, 'welcome.html', {'form': form, 'candidato': candidato})
+    return render(request, 'auth/welcome.html', {'form': form, 'candidato': candidato})

@@ -1,8 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+from ms_identity_web.django.msal_views_and_urls import MsalViews
+
+msal_urls = MsalViews(settings.MS_IDENTITY_WEB).url_patterns()
+
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.index, name='index'),
+    path('home/', views.home, name='home'),
     path('ofertas/', views.ofertas, name='ofertas'),
     path('candidatos/', views.candidatos, name='candidatos'),
     path('registroCandidato/<id>', views.registroCandidato, name='registroCandidato'),
@@ -18,5 +25,7 @@ urlpatterns = [
     path('detalleSoli/<id>', views.detalleSoli, name='detalleSoli'),
     path('detalleInforme/<id>', views.detalleInforme, name='detalleInforme'),
     path('calendario', views.CalendarioInc, name='calendario'),
-    path('welcome/<id>', views.welcome, name='welcome')
+    path('welcome/<id>', views.welcome, name='welcome'),
+    path(f'{settings.AAD_CONFIG.django.auth_endpoints.prefix}/', include(msal_urls)),
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
 ]

@@ -64,7 +64,7 @@ main{
     display: flex;
     flex-wrap: wrap;
     align-items: start;
-    justify-content: start;
+    justify-content: center;
     overflow-y: auto;
     background-color: rgb(240, 240, 240);
     border-radius: 20px 20px 20px 20px;
@@ -75,8 +75,8 @@ main{
     margin-bottom: 1%;
     margin-left: 5%;
     margin-right: 2%;
-    width: 40%;
-    height: 40%;
+    width: 80%;
+    height: 25%;
     background-color: white;
     border-radius: 20px 20px 20px 20px;
     display: flex;

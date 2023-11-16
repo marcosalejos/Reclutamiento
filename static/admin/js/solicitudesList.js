@@ -60,7 +60,7 @@ function exportarAExcel() {
 }
   
 
-function Finalizadas(){
+function FinalizadasColor(){
     let filas = document.getElementsByTagName('tr');
     for(let i = 1; i < filas.length; i++){
         let fila = filas[i].querySelectorAll('td');
@@ -270,4 +270,5 @@ function FiltrarTabla(centro){
 window.addEventListener('DOMContentLoaded', function() {
     SolicitudesCount();
     HiddeDelete();
+    FinalizadasColor();
 });

@@ -1,7 +1,7 @@
 var opcionesMTEA = [
     "Coordinador (Plantas)",
     "Planner (Planta)",
-    "Supervisor Producción (Plantas)",
+    "Supervisor (Plantas)",
     "Supervisor Instalaciones (Plantas)",
     "Técnico de Mantenimiento Electromecánico",
     "Técnico de Montaje y Mantenimiento Electromecánico",
@@ -20,20 +20,20 @@ var opcionesIngMec = [
 var opcionesIngAut = [
     "Coordinador Ingeniería Automatización",
     "Jefe de Equipo Automatización",
-    "Ingeniero de Automatización"
+    "Programador de PLC y Robótica"
 ]
 var opcionesFabMec = [
     "Coordinador Fabricación Mecánica",
-    "Responsable de Fabricación",
-    "Jefe de Equipo - Fabricación",
-    "Técnico Mecánico de Montaje y Mantenimiento ",
+    "Supervisor de Taller",
+    "Jefe de Equipo - Montaje Mecánico",
+    "Técnico de Montaje Mecánico",
     "Técnico Granalladora"
 ] 
 var opcionesIngEl = [
     "Ingeniero Eléctrico"
 ] 
 var opcionesFabEl = [
-    "Técnico Electromecánico de Montaje y Mantenimiento "
+    "Técnico de Montaje Electromecánico"
 ]
 var opcionesAdmin = [
     "Coordinador de Administración y Finanzas",

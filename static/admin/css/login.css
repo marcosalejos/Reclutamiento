@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body{
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+}
+
+main{
+    height: 100%;
+    width: 100%;
+    background-color: #f2f3f7!important;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.cuadro_section{
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.col{
+    width: 45%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo{
+    width: 95%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+}
+.logo img{
+    max-width: 100%;
+    height: auto;
+}
+
+.login_container{
+    width: 80%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 9%;
+}
+
+.login_container a{
+    color: black;
+    height: 30%;
+    border: 1px solid #dee2e6;
+    width: 45%;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.login_container a:hover{
+    border: 2px solid #004a98;
+}
+
+.login_container img{
+    max-height: 80%;
+    margin-right: 5%;
+}
+
+.invitados_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 15%;
+}
+
+.invitados_container a{
+    height: 75%;
+    width: 93%;
+    text-decoration: none;
+    color: black;
+    background-color: #ced4da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 0.4rem;
+}
+
+.invitados_container a:hover{
+    background-color: #c0c0c3;
+}

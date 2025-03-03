@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 - Okoa</title>
+        <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+        <link rel="stylesheet" href="{% static 'admin/css/401.css' %}">
+    </head>
+<body>
+    <main>
+        <section class="content_section">
+            <div class="imagen_container">
+                <img src="{% static 'admin/imagenes/mago.png' %}" alt="Mago">
+            </div>
+            <div class="text_container">
+                <div class="titulo_container">
+                    <h1>YOU SHALL NOT PASS!</h1>
+                </div>
+                <div class="numeros_container">
+                    <img src="{% static 'admin/imagenes/numeros.png' %}" alt="403">
+                </div>
+                <div class="warning_container">
+                    <p>
+                        Usted no tiene acceso a este sitio web.
+                        Por favor inicie sesión o póngase en contacto con el administrador del sitio para solicitarle acceso.
+                        Disculpe las molestias
+                    </p>
+
+                </div>
+                <div class="boton_container">
+                    {% if nombre %}
+                    <a href="{% url 'sign_out' %}">Cerrar Sesión</a>
+                    {% else %}
+                    <a href="{% url 'index' %}">Iniciar Sesión</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

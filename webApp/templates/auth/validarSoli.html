@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'admin/css/validarSoli.css' %}">
+</head>
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'solicitudes' %}"><img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back"></a>
+            </div>
+            <div class="vacio">
+
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <section class="informe">
+            <div class="cabecera">
+                <h3>Resumen Solicitud {{solicitud.FechaSolicitud|date:"d/m/Y"}}</h3>
+            </div>
+            <div class="campos">
+                <div class="fila" style="display: flex; margin-left: 0;">
+                    <div class="columna">
+                        <p>Solicitante</p>
+                        <input type="text" value="{{solicitud.Solicitante}}" readonly style="width: 80%;">
+                    </div>
+                    <div class="columna">
+                        <p>Fecha Incorporación Estimada</p>
+                        <input style="width: 80%;" type="text" value="{{solicitud.FechaIncEstimada|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <p>Puesto</p>
+                    <input style="width: 80%;" type="text" value="{{solicitud.Puesto}}" readonly>
+                </div>
+                <div class="fila" style="display: flex; margin-left: 0;">
+                    <div class="columna">
+                        <p>Centro</p>
+                        <input type="text" value="{{solicitud.Centro}}" readonly style="width: 80%;">
+                    </div>
+                    <div class="columna">
+                        <p>Vacantes</p>
+                        <input type="number" value="{{solicitud.Vacantes}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_motivo">
+                    <p>Motivo</p>
+                    <textarea cols="90" rows="5" readonly>{{solicitud.Motivo}}</textarea>
+                </div>
+                <div class="fila_motivo">
+                    <p>Observaciones</p>
+                    <textarea cols="90" rows="5" readonly>{{solicitud.Observaciones}}</textarea>
+                </div>
+            </div>
+            <div class="separador">
+
+            </div>
+            <section class="estado">
+                <form method="post" action="{% url 'validarSoli' solicitudID %}">
+                    {% csrf_token %}
+                    <div class="estadoBtn">
+                        <input type="radio" name="rdo" id="yes" value="Aprobada" checked>
+                        <input type="radio" name="rdo" id="no" value="Denegada">
+                        <div class="switch">
+                            <div class="col" style="border-radius: 25px 0 0 25px;">
+                                <label style="width: 100%;" for="yes">Aprobada</label>
+                            </div>
+                            <div class="col_icon">
+                                <span></span>
+                            </div>
+                            <div class="col" style="border-radius: 0 25px 25px 0;">
+                                <label style="width: 100%;" for="no">Denegada</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="motivoEstado">
+                        {{form.EstadoValidacion}}
+                    </div>
+                    <div class="sendBtn">
+                        <button type="submit">Validar</button>
+                    </div>
+                </form>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

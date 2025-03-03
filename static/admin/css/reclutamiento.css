@@ -1,0 +1,179 @@
+/* OKOA CUSTOM CSS */
+
+/* FUENTES */
+
+.TXT_Titulo_1 {
+	font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 60px;
+    line-height: 73px;
+}
+
+.TXT_Titulo_Largo {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 59px;
+}
+
+.TXT_Subtitulo {
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 29px;
+}
+
+.TXT_Titulos_Textos {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 29px;
+}
+
+.TXT_Boton {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 27px;
+	padding-bottom: 10px;
+}
+
+.TXT_Titulo_Ficha {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 30px;
+	line-height: 37px;
+}
+
+.TXT_Titulo_Ficha_Producto {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 30px;
+	line-height: 37px;
+	}
+
+.TXT_Parrafo {
+    font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+}
+
+.TXT_Azul {
+	color: #004A98;
+    font-family: 'Montserrat';
+}
+
+.TXT_Verde {
+    color: #3DAE2B;
+    font-family: 'Montserrat';
+}
+
+.TXT_Blanco {
+	color: #fff;
+}
+
+.TXT_Bold {
+	font-weight: 700;
+}
+
+
+@media only screen and (max-width: 700px){
+
+    .TXT_Titulo_Largo {
+        font-size: 30px;
+        line-height: 37px;
+    }
+    .TXT_Parrafo {
+    font-size: 16px;
+    line-height: 20px;
+    }
+
+    .TXT_Titulos_Textos {
+    font-size: 18px;
+    line-height: 22px;
+    }
+
+}
+
+/* ESPACIADOS */
+
+.margen_lateral_okoa{
+	padding: 150px 108px;
+}
+
+.margen_lateral_okoa_2{
+	padding: 54px 108px;
+}
+
+.margen_lateral_okoa_3{
+	padding: 108px 108px;
+}
+
+@media only screen and (max-width: 700px){
+   .margen_lateral_okoa_3{
+    padding: 70px 25px !important;
+    }
+   .margen_lateral_okoa{
+    padding: 70px 25px !important;
+    }
+    .margen_lateral_okoa_2{
+    padding: 70px 25px !important;
+    }
+    #Blog .IMG-Noticia {
+    display: none;
+    }
+    #Blog .slick-arrows-noticias {
+    top: -34px !important;
+    }
+    #Blog .ROW2 {
+    padding-top: 20px;
+    }
+    #Blog .TXT_Parrafo.TXT_Blanco {
+    padding-bottom: 60px;
+    }
+}
+
+
+/* BACKGROUNDS */
+
+.BG-Blue{
+	background: #004a98;
+}
+
+.BG-Blue-Light{
+    background: #5293CE;
+}
+
+.BG-White{
+	background: #fff;
+}
+
+.BG-Green{
+	background: #3dae2a;
+}
+
+.BG-Grey{
+    background: #f9f9f9;
+}
+
+/* Botones OKOA */
+
+.BTN_OKOA {
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 20px;
+    border-radius: 27px;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 100%;
+}

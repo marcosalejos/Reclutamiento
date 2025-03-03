@@ -1,0 +1,411 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body{
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+}
+  
+
+.header-container{
+  width: 20%; 
+  height: 20%;
+  border-end-end-radius: 100rem;
+  background-color: #004a98;
+  transition: height 1s;
+  transition: all 1s;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+  
+.logo-img{
+  height: 100%;
+  width: 80%;
+  margin-top: 5%;
+}
+  
+  
+.header-container:hover {
+  height: 100%;
+  border-radius: 0;
+
+}
+
+main{
+  height: 99%;
+  width: 80%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+
+.tablas{
+  height: 65%;
+  width: 92%;
+  max-height: 518px;
+  overflow-y: auto;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+}
+  
+  
+  
+.header-container ul {
+
+  opacity: 0;
+  transition: opacity 1.5s;
+
+}
+  
+.header-container:hover ul {
+  opacity: 1;
+  
+}
+
+.header-container section {
+  padding-left: 30px;
+}
+  
+ul li{
+  text-decoration: none;
+  font-size: large;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: color 1s;
+}
+  
+ul li:hover {
+  color: rgb(130, 252, 130);
+}
+
+header a{
+  color: white;
+  text-decoration: none;
+}
+
+header a:hover{
+  color: rgb(130, 252, 130);
+}
+
+table {
+  border-collapse: collapse;
+  
+}
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+  
+.styled-table th, .styled-table td {
+  padding: 1px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  background-color: rgb(255, 255, 255);
+}
+
+.styled-table .nombre_oferta{
+  text-align: left;
+}
+  
+.styled-table th {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.delete{
+  width: 40px;
+  height: auto;
+}
+  
+button{
+  border: none;
+  padding: 7px 12px;
+  background-color: rgb(0, 167, 0);
+  border-radius: 20px;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+}
+
+
+.checkBtn{
+  margin-top: 2%;
+  display: flex;
+  height: 50%;
+  width: 100%;
+}
+
+.checkVal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 50%;
+}
+
+.checkVal a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.checkVal img{
+  height: 45px;
+  width: 45px;
+}
+
+.top_section{
+  width: 95%;
+  height: 10%;
+  display: flex;
+  align-items: end;
+  margin-bottom: 2%;
+}
+
+.search_section{
+  width: 35%;
+  height: 10%;
+  display: flex;
+  align-items: end;
+  justify-content: right;
+  margin-right: 2%;
+}
+
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 80%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 1.0rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+}
+  
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: gray;
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #11998e;
+    font-weight:700;    
+  }
+  padding-bottom: 6px;  
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image-slice: 1;
+}
+
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
+}
+
+.ofertaLink{
+  color: #004a98;
+}
+.ofertaLink:hover{
+  color: #004a98;
+}
+
+.solicitud_section{
+  width: 12%;
+  height: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solicitud_section button{
+  background-color: #004a98;
+  border-radius: 7px;
+  height: 100%;
+  width: 100%;
+}
+
+.resumen_section{
+  height: 15%;
+  width: 90%;
+}
+
+.encabezados{
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.enc{
+  text-align: center;
+  display: flex;
+  height: 100%;
+  width: 8%;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.enc a{
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.enc a:hover{
+  color: #3dae2a
+}
+
+.enc_tot{
+  text-align: center;
+  display: flex;
+  height: 100%;
+  width: 8%;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #004a98;
+}
+
+.enc_tot a{
+  color: #004a98;
+  cursor: pointer;
+}
+
+.mail img{
+  width: 40px
+}
+
+.validate {
+  width: 55px;
+  height: auto;
+}
+
+
+.calendar a{
+  color: black;
+}
+
+.calendarioText{
+  height: 30%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1%;
+}
+
+.calendarioIcono{
+  height: 50%;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.calendarioIcono img{
+  height: 70px;
+  width: auto;
+}
+
+.filtros_section{
+  height: 100%;
+  width: 44%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filtro_container{
+  display: flex;
+  height: 100%;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+}
+
+.filtro_container a{
+  opacity: 0.3;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1%;
+  color: white;
+  width: 95%;
+  height: 40%;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.excel_section{
+  height: 65%;
+  width: 9%;
+}
+
+.excel_section a{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.excel_section img{
+  height: 40px;
+  width: auto;
+}

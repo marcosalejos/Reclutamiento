@@ -1,0 +1,40 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Observación - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/observacion.css' %}">
+    <script src="{% static 'admin/js/observacion.js' %}"></script>
+</head>
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'observacionesSolicitud' id %}">
+                    <img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="vacio">
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <form action="" method="post">
+            {% csrf_token %}
+            <section class="datos_section">
+                <div class="cabecera">
+                    <h3>Nueva Observación</h3>
+                </div>
+                <div class="campos_container">
+                    {{form.Descripcion}}
+                </div>
+                <div class="container_send">
+                    <button type="submit">Guardar</button>
+                </div>
+            </section>
+        </form>
+    </main>
+</body>

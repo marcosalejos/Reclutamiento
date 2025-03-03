@@ -1,0 +1,148 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Solicitud - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/solicitud.css' %}">
+
+</head>
+<body>
+    <main>
+        <div class="header">
+            <div class="home_icon">
+                <a href="{% url 'solicitudes' %}">
+                    <img src="{% static 'admin/imagenes/flecha.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
+            </div>
+        </div>
+        <div class="container">
+            <form method="post" action="{% url 'solicitud' %}"> 
+                {% csrf_token %}           
+                <div class="columna_izq">
+                    <div class="fila_up">
+                        <div class="content-select">
+                            <p>Puesto</p>
+                            <select onchange="opcionesDesplegable()" name="puestos" id="puestos">
+                                <option value="MTEA">MTEA</option>
+                                <option value="Metodologia"> Metodologia y Datos</option>
+                                <option value="Ing_Mec">Ingeniería Mecánica</option>
+                                <option value="Ing_Aut">Ingeniería Automatización</option>
+                                <option value="Fab_Mec">Fabricación Mecánica</option>
+                                <option value="Ing_Elec">Ingeniería Eléctrica</option>
+                                <option value="Fab_Elec">Fabricación Eléctrica</option>
+                                <option value="Administracion">Administracion y Finanzas</option>
+                                <option value="TI">TI</option>
+                                <option value="Comercial">Comercial</option>
+                                <option value="Compras">Compras y Aprovisionamiento</option>
+                                <option value="VyP">Valores y Personas</option>
+                                <option value="PRL">PRL</option>
+                              </select>
+                              <i></i>
+                        </div>
+                        <div class="puestos_container">
+                            <select name="puestoTecnico" id="opciones" size="5" required>    
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="fila_down">
+                        <div class="container_inputs">
+                            <div class="solicitante_select">
+                                <p>Solicitante</p>
+                                {{ form.Solicitante }}
+                            </div>
+                            <div class="centro_select">
+                                <p>Centro</p>
+                                {{ form.Centro }}
+                            </div>
+                            <div class="vacantes_select">
+                                <p>Vacantes</p>
+                                {{ form.Vacantes }}
+                            </div>
+                        </div>
+                        <div class="container_observaciones">
+                            <p>Observaciones / Detalles</p>
+                            {{ form.Observaciones }}
+                        </div>
+                    </div>  
+                </div>
+                <div class="columna_der">
+                    <div class="container_motivo">
+                        <div class="labelMotivo">
+                            <p>Motivo</p>
+                        </div>
+                        <section class="light">
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option1" required>
+                                <span class="design"></span>
+                                <span class="text">
+                                    Sustitución por baja voluntaria del empleado/a
+                                    (abandono de la empresa de manera voluntaria, presentando la carta de baja
+                                    voluntaria)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option2">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Sustitución por bajo desempeño (se procederá a la sustitución de un 
+                                    empleado por su bajo desempeño por otro nuevo)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option3">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Sustitución por baja laboral o permiso retribuido (accidente laboral,
+                                    maternidad, paternidad...)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option4">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Incorporación debido a un nuevo proyecto (nueva necesidad de cliente
+                                    vinculada a un proyecto concreto que requiere de incorporación; se trata de
+                                    una incorporación fuera de la adenda)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option5">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Incorporación por dimensionamiento del equipo (incorporación por 
+                                    crecimiento de la adenda)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option7">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Sustitución por promoción, cambio de puesto o cambio de planta 
+                                    (empleado/a ha promocionado a otro puesto; empleado/a ha cambiado 
+                                    de puesto de trabajo; empleado/a mantiene sus funciones pero de planta)
+                                </span>
+                            </label>
+                            <label>
+                                <input class="radioIn" type="radio" name="light" value="option8">
+                                <span class="design"></span>
+                                <span class="text">
+                                    Otras
+                                </span>
+                            </label>
+                        </section>
+                    </div>
+                    <div class="container_send">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>    
+    <script src="{% static 'admin/js/solicitud.js' %}"></script>
+</body>

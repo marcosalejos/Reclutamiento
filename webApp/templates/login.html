@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - Okoa</title>
+        <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+        <link rel="stylesheet" href="{% static 'admin/css/login.css' %}">
+    </head>
+<body>
+    <main>
+        <section class="cuadro_section">
+            <div class="col" style="border-right: 1px solid #dee2e6;">
+                <div class="logo">
+                    <img src="https://academy.okoa.tech/pluginfile.php/1/core_admin/logo/0x200/1688052175/Okoa%20Largo.png" alt="LOGO">
+                </div>
+            </div>
+            <div class="col" style="border-left: 1px solid #dee2e6; flex-direction: column;">
+                <div class="login_container">
+                    <p>Ingresar con</p>
+                    <a href="{% url 'sign_in' %}">
+                        <img src="https://www.microsoft.com/favicon.ico" alt="M365"> Microsoft
+                    </a>
+                </div>
+                <div class="invitados_container">
+                    <a href="#">Acceso Nuevas Incorporaciones</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

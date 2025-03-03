@@ -1,0 +1,274 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/registroCandidato2.css' %}">
+    <script src="{% static 'admin/js/registroCandidato2.js' %}"></script>
+</head>
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'candidatos' %}">
+                    <img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="vacio">
+
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <form method="post" action="{% url 'registroCandidato' candidatoID %}">
+            {% csrf_token %} 
+            <section class="datos_section">
+                <div class="cabecera">
+                    <h3>Datos Personales</h3>
+                </div>
+                <div class="campos">
+                    <div class="columna">
+                        <div class="fila">
+                            <p>Nombre</p>
+                            {{form.Nombre}}
+                        </div>
+                        <div class="fila">
+                            <p>Fecha Nacimiento</p>
+                            {{form.FechaNacimiento}}
+                        </div>
+                        <div class="fila">
+                            <p>Correo Electrónico</p>
+                            {{form.Mail}}
+                        </div>
+                        <div class="fila">
+                            <p>Nacionalidad</p>
+                            {{form.Nacionalidad}}
+                        </div>
+                        <div class="fila">
+                            <p>Municipio</p>
+                            {{form.Municipio}}
+                        </div>
+                        <div class="fila">
+                            <p>Domicilio</p>
+                            {{form.Domicilio}}
+                        </div>
+                        <div class="fila">
+                            <p>Talla Polo</p>
+                            {{form.TallaPolo}}
+                        </div>
+                        <div class="fila">
+                            <p>Talla Chaqueta</p>
+                            {{form.TallaChaqueta}}
+                        </div>
+                    </div>
+                    <div class="columna">
+                        <div class="fila">
+                            <p>DNI</p>
+                            {{form.DNI}}
+                        </div>
+                        <div class="fila">
+                            <p>Sexo</p>
+                            {{form.Sexo}}
+                        </div>
+                        <div class="fila">
+                            <p>Teléfono</p>
+                            {{form.Telefono}}
+                        </div>
+                        <div class="fila">
+                            <p>Número SIP</p>
+                            {{form.SIP}}
+                        </div>
+                        <div class="fila">
+                            <p>Provincia</p>
+                            {{form.Provincia}}
+                        </div>
+                        <div class="fila">
+                            <p>Código Postal</p>
+                            {{form.CP}}
+                        </div>
+                        <div class="fila">
+                            <p>Talla Pantalón</p>
+                            {{form.TallaPantalon}}
+                        </div>
+                        <div class="fila">
+                            <p>Talla Zapatos</p>
+                            {{form.TallaZapatos}}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="separador"></div>
+            <section class="banco_section">   
+                <div class="cabecera" style="height: 20%;">
+                    <h3>Datos Bancarios</h3>
+                </div>
+                <div class="campos" style="height: 80%;">
+                    <div class="col_banc">
+                        <div class="fila_banc">
+                            <p>Nombre Entidad Bancaria</p>
+                            {{form.EntidadBank}}
+                        </div>
+                        <div class="fila_banc">
+                            <p>IBAN</p>
+                            <div class="iban"> 
+                                <div class="col2" style="margin-left: 1%;">
+                                    {{form.CodPais}}
+                                </div>
+                                <div class="col2">
+                                    {{form.ControlDig}}
+                                </div>
+                                <div class="col4">
+                                    {{form.EntBanc}}
+                                </div>
+                                <div class="col4">
+                                    {{form.SucBanc}}
+                                </div>
+                                <div class="col2">
+                                    {{form.ControlDig2}}
+                                </div>
+                                <div class="col10">
+                                    {{form.Cuenta}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="separador"></div>
+            <section class="datos_section" style="height: 45%;">
+                <div class="cabecera" style="height: 20%;">
+                    <h3>Firma Outlook</h3>
+                </div>
+                <div class="campos" style="height: 80%;">
+                    <div class="col_banc">
+                        <div class="fila_banc">
+                            <p>Area Firma</p>
+                            {{form.AreaFirma}}
+                        </div>
+                        <div class="fila_banc">
+                            <p>Puesto Firma</p>
+                            <select style="height: 35%; width: 70%; font-size: large;" id="puestoFirma" name="puestoFirma">
+                                <option value="{{puestoFirma}}" selected>{{puestoFirma}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="separador"></div>
+            <section class="datos_section" style="height: 120%;">
+                <div class="cabecera" style="height: 9%;">
+                    <h3>Datos Contratación</h3>
+                </div>
+                <div class="campos_cont">
+                    <div class="container_cont">
+                        <div class="columna">
+                            <div class="fila">
+                                <p>Sociedad</p>
+                                {{form.Sociedad}}
+                            </div>
+                            <div class="fila">
+                                <p>Sección</p>
+                                {{form.Seccion}}
+                            </div>
+                            <div class="fila">
+                                <p>Fecha Incorporación</p>
+                                {{form.FechaIncorporacion}}
+                            </div>
+                        </div>
+                        <div class="columna">
+                            <div class="fila" style="flex-direction: row; align-items: center; justify-content: start;">
+                                <div class="fila_doble" style="width: 40%;">
+                                    <p>Categoria</p>
+                                    {{form.Categoria}}
+                                </div>
+                                <div class="fila_doble">
+                                    <p>Categoria Sage</p>
+                                    {{form.CategoriaSage}}
+                                </div>
+                            </div>
+                            <div class="fila">
+                                <p>Convenio</p>
+                                {{form.Convenio}}
+                            </div>
+                            <div class="fila">
+                                <p>Turno</p>
+                                {{form.TurnoInicial}}
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="container_inf">
+                        <div class="cont_sba">
+                            <div class="columna" style="width: 50%; display: flex; flex-direction: row;">
+                                <div class="columna" style="width: 50%;">
+                                    <div class="fila_jornada">
+                                        <p>SBA Pactado</p>
+                                        {{form.SBA}}
+                                    </div>
+                                </div>
+                                <div class="columna" style="width: 40%;">
+                                    <div class="fila_jornada">
+                                        <p>Horas Extra</p>
+                                        {{form.HorasExtra}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columna" style="width: 50%; display: flex; flex-direction: row;">
+                                <div class="columna" style="width: 50%;">
+                                    <div class="fila_jornada">
+                                        <p>Jornada</p>
+                                        {{form.Jornada}}
+                                    </div>
+                                </div>
+                                <div class="columna" style="width: 40%;">
+                                    <div class="fila_jornada">
+                                        <p>Horas</p>
+                                        {{form.Horas}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fila_sba">
+                            <p>Solicitud</p>
+                            <select onchange="RellenarSolicitud()" name="solicitudes" id="solicitudes">
+                                <option value="{{ candidatoSolicitud.id }}-{{ candidatoSolicitud.Centro }}" selected>{{candidatoSolicitud.Solicitante}} - {{candidatoSolicitud.Puesto}}</option>
+                                {% for solicitud in solicitudes %}
+                                {% if solicitud.id != candidatoSolicitud.id%}
+                                <option value="{{ solicitud.id }}-{{ solicitud.Centro }}">{{solicitud.Solicitante}} - {{solicitud.Puesto}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="cont_inf">
+                            <div class="columna" style="width: 30%;">
+                                <div class="fila_inf">
+                                    <p>Centro</p>
+                                    {{form.Centro}}
+                                </div>
+                                <div style="display: none;" class="fila_inf" id="complementario">
+                                    <p>Centro Complementario</p>
+                                    {{form.CentroComp}}
+                                </div>
+                            </div>
+                            <div class="columna" style="width: 60%;">
+                                <div class="fila_inf">
+                                    <p>Puesto</p>
+                                    {{form.Puesto}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </section>
+            <div class="separador" style="height: 3%;"></div>
+            <div class="send">
+                <button type="submit">Guardar</button>
+            </div>
+            <div class="separador" style="height: 3%;"></div>
+        </form>
+    </main>
+</body>

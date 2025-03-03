@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Información - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'admin/css/detalleInforme.css' %}">
+    <script src="{% static 'admin/js/detalleInforme.js' %}"></script>
+</head>
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'candidatos' %}"><img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back"></a>
+            </div>
+            <div class="vacio">
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <section class="informe">
+            <div class="cabecera">
+                <h3>Informe Asesoria/Factorial</h3>
+            </div>
+            <div class="campos">
+                <div class="fila">
+                    <div class="col">
+                        <p>Nombre</p>
+                        <input type="text" value="{{candidato.Nombre}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>DNI</p>
+                        <input type="text" value="{{candidato.DNI}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>SIP</p>
+                        <input type="text" value="{{candidato.SIP}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Fecha Nacimiento</p>
+                        <input type="text" value="{{candidato.FechaNacimiento|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Nacionalidad</p>
+                        <input type="text" value="{{candidato.Nacionalidad}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Categoria Sage</p>
+                        <input type="text" value="{{candidato.CategoriaSage}}" readonly>
+                    </div>
+                </div>
+                <div class="fila" style="display: block;">
+                    <p>Proceso de Selección</p>
+                    <input type="text" value="{{oferta}}" readonly>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Puesto</p>
+                        <input type="text" value="{{candidato.Puesto}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Fecha Contratación</p>
+                        <input type="text" value="{{candidato.FechaRegistro|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Sociedad</p>
+                        <input type="text" value="{{candidato.Sociedad}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Categoria</p>
+                        <input type="text" value="{{candidato.Categoria}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Convenio</p>
+                        <input type="text" value="{{candidato.Convenio}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Sección</p>
+                        <input type="text" value="{{candidato.Seccion}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Centro</p>
+                        <input type="text" value="{{candidato.Centro}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Fecha Incorporación</p>
+                        <input type="text" value="{{candidato.FechaIncorporacion|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila" style="display: block;">
+                    <p>S.B.A Pactado</p>
+                    <input type="text" value="{{candidato.SBA}}" readonly>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Entidad Bancaria</p>
+                        <input type="text" value="{{candidato.EntidadBancaria}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>IBAN</p>
+                        <input id="iban" type="text" value="{{candidato.IBAN}}" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="informe" style="height: 30%;"> 
+            <div class="cabecera" style="height: 14%;">
+                <h3>Informe PRL</h3>
+            </div>
+            <div class="campos">
+                <div class="fila_prl">
+                    <div class="col">
+                        <p>Nombre</p>
+                        <input type="text" value="{{candidato.Nombre}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>DNI</p>
+                        <input type="text" value="{{candidato.DNI}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_prl">
+                    <div class="col">
+                        <p>Sociedad</p>
+                        <input type="text" value="{{candidato.Sociedad}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Centro</p>
+                        <input type="text" value="{{candidato.Centro}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_prl">
+                    <div class="col">
+                        <p>Fecha Incorporación</p>
+                        <input type="text" value="{{candidato.FechaIncorporacion|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_prl">
+                    <div class="col" style="width: 25%;">
+                        <p>T.Polo</p>
+                        <input type="text" value="{{candidato.TallaPolo}}" readonly>
+                    </div>
+                    <div class="col" style="width: 25%;">
+                        <p>T.Pantalon</p>
+                        <input type="text" value="{{candidato.TallaPantalon}}" readonly>
+                    </div>
+                    <div class="col" style="width: 25%;">
+                        <p>T.Chaqueta</p>
+                        <input type="text" value="{{candidato.TallaChaqueta}}" readonly>
+                    </div>
+                    <div class="col" style="width: 25%;">
+                        <p>T.Zapatos</p>
+                        <input type="text" value="{{candidato.TallaZapatos}}" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="informe" style="height: 37%;">
+            <div class="cabecera" style="height: 16%;">
+                <h3>Informe Planta</h3>
+            </div>
+            <div class="campos">
+                <div class="fila_planta">
+                    <div class="col">
+                        <p>Nombre</p>
+                        <input type="text" value="{{candidato.Nombre}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>DNI</p>
+                        <input type="text" value="{{candidato.DNI}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_planta" style="display: block;">
+                    <p>Proceso de Selección</p>
+                    <input type="text" value="{{oferta}}" readonly>
+                </div>
+                <div class="fila_planta">
+                    <div class="col">
+                        <p>Puesto</p>
+                        <input type="text" value="{{candidato.Puesto}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Fecha Contratación</p>
+                        <input type="text" value="{{candidato.FechaRegistro|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <div class="fila_planta">
+                    <div class="col">
+                        <p>Fecha Incorporación</p>
+                        <input type="text" value="{{candidato.FechaIncorporacion|date:"d/m/Y"}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Turno Inicial</p>
+                        <input type="text" value="{{candidato.TurnoInicial}}" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="informe" style="height: 55%;">
+            <div class="cabecera" style="height: 11%;">
+                <h3>Persona Adicional</h3>
+            </div>
+            <div class="campos">
+                <form method="post" action="{% url 'detalleInforme' candidato.id %}" enctype="multipart/form-data">
+                    {% csrf_token %} 
+                    <div class="fila_extra">
+                        <div class="col_extra">
+                            <input class="checkbox" type="checkbox" name="asesoriaMail" style="width: 5%;" checked>
+                            <p>Asesoria</p>
+                            <input type="email" value="{{mailAsesoria}}" readonly>
+                        </div>
+                        <div class="col_extra">
+                            <input class="checkbox" type="checkbox" name="prlMail" style="width: 5%;" checked>
+                            <p>PRL</p>
+                            <input type="email" value="{{mailPRL}}" readonly>
+                        </div>
+                    </div>
+                    <div class="fila_extra">
+                        <div class="col_extra">
+                            <input class="checkbox" type="checkbox" name="plantaMail" style="width: 5%;" checked>
+                            <p>Planta</p>
+                            <input type="email" value="{{mailPlanta}}">
+                        </div>
+                        <div class="col_extra">
+                            <input class="checkbox" type="checkbox" name="soporteMail" style="width: 5%;" checked>
+                            <p>Soporte</p>
+                            <input type="email" value="{{mailSoporte}}" readonly>
+                        </div>
+                    </div>
+                    <div class="fila_extra">
+                        <div class="col_extra">
+                            <input class="checkbox" type="checkbox" name="factorialMail" style="width: 5%;" checked>
+                            <p>Factorial</p>
+                            <input type="email" value="{{mailFactorial}}" readonly>
+                        </div>
+                        <div class="col_extra">
+                            <p>Email Extra</p>
+                            {{form.Email}}
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="cuadro_opciones">
+                        <div class="option_container">
+                            <input type="checkbox" name="asesoria" class="check asesoria">
+                        </div>
+                        <div class="option_container">
+                            <input type="checkbox" name="prl" class="check prl">
+                        </div>
+                        <div class="option_container">
+                            <input type="checkbox" name="planta" class="check planta">
+                        </div>
+                    </div>
+                    <div class="adjuntos_container">
+                        <div class="adjunto">
+                            <p>DNI</p>
+                            {{form.DNI}}
+                            <label for="id_DNI"><img src="{% static 'admin/imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileDNI" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                        <div class="adjunto">
+                            <p>SIP</p>
+                            {{form.SIP}}
+                            <label for="id_SIP"><img src="{% static 'admin/imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileSIP" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                        <div class="adjunto">
+                            <p>Titularidad Bancaria</p>
+                            {{form.Titularidad}}
+                            <label for="id_Titularidad"><img src="{% static 'admin/imagenes/upload.png' %}" alt="Upload"></label>
+                            <p id="fileTit" style="font-size: 10px;">Ningún archivo seleccionado</p>
+                        </div>
+                    </div>
+                    <div class="send_container">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
+                <div class="vacio" style="height: 3%;">
+
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

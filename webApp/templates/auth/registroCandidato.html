@@ -1,0 +1,61 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/registroCandidato.css' %}">
+
+</head>
+<body>
+    <main>
+        <div class="header">
+            <div class="home_icon">
+                <a href="{% url 'candidatos' %}">
+                    <img src="{% static 'admin/imagenes/flecha.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
+            </div>
+        </div>
+        <div class="container">
+            <form method="post" action="{% url 'registroCandidato' candidatoID %}"> 
+                {% csrf_token %} 
+                <div class="contenido">
+                    <div class="campos">
+                        <div class="input">
+                            <div class="text">
+                                <p>DNI</p>
+                            </div>
+                            <div class="content">
+                                {{form.DNI}}
+                            </div>
+                        </div>
+                        <div class="nombre">
+                            <div class="text">
+                                <p>Nombre</p>
+                            </div>
+                            <div class="content">
+                                {{form.Nombre}}
+                            </div>
+                        </div>
+                        <div class="solicitud">
+                            <p>Solicitud</p>
+                            <select name="solicitudes" id="solicitudes">
+                                {% for solicitud in solicitudes %}
+                                <option value="{{solicitud.id}}">{{solicitud.Solicitante}} - {{solicitud.Puesto}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_send">
+                    <button type="submit">Guardar</button>
+                </div>      
+            </form>
+        </div>
+    </main>    
+</body>

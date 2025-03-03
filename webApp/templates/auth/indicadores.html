@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/indicadores.css' %}">
+    <title>Indicadores - OKOA</title>
+</head>
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'solicitudes' %}">
+                    <img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="vacio">
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <form action="" method="post">
+            {% csrf_token %}
+            <section class="datos_section">
+                <div class="cabecera">
+                    <h3>Resumen Indicadores</h3>
+                </div>
+                <div class="resumen_container">
+                    <div class="indicador">
+                        <div class="enunciado">
+                            Nº Contáctos Telefónicos
+                        </div>
+                        <div class="dato">
+                            {{data.tlf}}
+                        </div>
+                    </div>
+                    <div class="indicador">
+                        <div class="enunciado">
+                            Nº Entrevistas Teams
+                        </div>
+                        <div class="dato">
+                            {{data.teams}}
+                        </div>
+                    </div>
+                    <div class="indicador">
+                        <div class="enunciado">
+                            Nº Entrevistas Técnicas
+                        </div>
+                        <div class="dato">
+                            {{data.tecnica}}
+                        </div>
+                    </div>
+                </div>
+                <div class="campos_container">
+                    <div class="campos_formulario">
+                        <p>Tipo</p>
+                        <select name="tiposIndicadores" id="tiposIndicadores">
+                            <option value="Telefono">Contacto Telefónico</option>
+                            <option value="Teams">Entrevista de Teams</option>
+                            <option value="Tecnica">Entrevista Técnica</option>
+                        </select>
+                        <p>Cant.</p>
+                        <input type="number" name="cantidad" id="cantidad" required>
+                    </div>
+                </div>
+                <section class="container_send">
+                    <button type="submit" name="add_button">Añadir</button>
+                    <button type="submit" name="remove_button" style="background-color: rgb(255, 50, 50);">Quitar</button>
+                </section>
+            </section>
+        </form>
+    </main>
+</body>
+</html>

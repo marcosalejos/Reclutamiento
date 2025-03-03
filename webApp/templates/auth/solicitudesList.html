@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solicitudes - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'admin/css/solicitudes.css' %}">
+  <script src="{% static 'admin/js/solicitudesList.js' %}"></script>
+</head>
+<body class="BG-Blue TXT_Blanco">
+
+  <header class="header-container">
+    <section>
+        <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
+        <ul>
+          <li><a href="{% url 'home' %}">Inicio</a></li>
+          <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
+          {% if nombre in adminList %}
+          <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
+          {% endif %}
+          <li><a href="{% url 'sign_out' %}">Cerrar Sesión</a></li>
+        </ul>  
+    </section>
+  </header>
+  <main>
+    <section class="resumen_section">
+      <div id="encabezados" class="encabezados">
+        
+      </div>
+      <div id="valores" class="encabezados">
+        
+      </div>
+    </section>
+    <section class="top_section">
+      <section class="filtros_section">
+        <div class="filtro_container">
+          <a onclick="Pendientes()" id="pendBTN" style="background-color: #edaf06">PENDIENTES</a>
+        </div>
+        <div class="filtro_container">
+          <a onclick="Validadas()" id="valBTN" style="background-color: #004a98;">VALIDADAS</a>
+        </div>
+        <div class="filtro_container">
+          <a onclick="Finalizadas()" id="finBTN" style="background-color: #3dae2a;">FINALIZADAS</a>
+        </div>
+        <div class="filtro_container">
+          <a onclick="Descartadas()" id="descBTN" style="background-color: red;">DENEGADAS</a>
+        </div>
+      </section>
+      <section class="search_section">
+        <div class="form__group field">
+          <input type="input" onkeyup="SearchTable(solicitudes)" class="form__field" placeholder="Buscar Solicitud" name="search" id='search' required />
+          <label for="search" class="form__label">Buscar solicitud</label>
+        </div>
+      </section>
+      <section class="solicitud_section">
+        <button onclick="newSoli()">Nueva Solicitud</button>
+      </section>
+      <section class="excel_section">
+        <a onclick="exportarAExcel()">
+          <img src="{% static 'admin/imagenes/Excel.jpg' %}" alt="Excel">
+        </a>
+      </section>
+    </section>
+    <section class="tablas">
+      <table id="solicitudes" class="styled-table">
+        <tr>
+          <th>ID</th>
+          <th>Solicitante</th>
+          <th>Fecha</th>
+          <th>Centro</th>
+          <th>Puesto</th>
+          <th>Vacantes</th>
+          <th>Contrataciones</th>
+          <th>Oferta</th>
+          {% if nombre in adminList %}
+          <th>Indicadores</th>
+          {% endif %}
+          <th></th>
+          <th></th>
+          {% if nombre in adminList %}
+          <th></th>
+          {% endif %}
+        </tr>
+        {% for solicitud in solicitudes %}
+        <tr id="{{solicitud.EstadoValidacion}}">
+          <td id="identificador">{{solicitud.id}}</td>
+          <td>{{solicitud.Solicitante}}</td>
+          <td>{{solicitud.FechaSolicitud|date:"d/m/Y"}}</td>
+          <td id="centro">{{solicitud.Centro}}</td>
+          <td>{{solicitud.Puesto}}</td>
+          <td name="vacantes">{{solicitud.Vacantes}}</td>
+          <td name="contratados">{{solicitud.Contratados}}</td>
+          {% if nombre in adminList %}
+          <td><a class="ofertaLink" href="{% url 'asignarOferta' solicitud.id %}">{{solicitud.OfertaID_id}}</a></td>
+          {% else %}
+          <td><p>{{solicitud.OfertaID_id}}</p></td>
+          {% endif %}
+          {% if nombre in adminList %}
+          <td><a class="ofertaLink" href="{% url 'indicadores' solicitud.id %}">Indicadores</a></td>
+          {% endif %}
+          <td><button type="button" onclick="navigate('{{solicitud.id}}')">Observaciones</button></td>
+          {% if solicitud.Validado == False %}
+          {% if nombre in adminList %}
+          <td><a href="{% url 'validarSoli' solicitud.id %}"><img class="validate" src="https://static.vecteezy.com/system/resources/previews/008/935/090/original/check-mark-and-cross-icon-isolated-on-white-background-free-vector.jpg" alt="Validar"></a></td>
+          {% endif %}
+          {% endif %}
+          {% if solicitud.Validado == True %}
+          {% if solicitud.EstadoValidacion == "Aprobada" %}
+          <td><a href="{% url 'detalleSoli' solicitud.id %}"><img class="validate" src="https://png.pngtree.com/png-clipart/20221012/original/pngtree-green-check-mark-icon-on-transparent-background-png-image_8679061.png" alt="Validar"></a></td>
+          {% endif %}
+          {% if solicitud.EstadoValidacion == "Denegada" %}
+          <td><a href="{% url 'detalleSoli' solicitud.id %}"><img class="validate" src="{% static 'imagenes/denegada.png' %}" alt="Validar"></a></td>
+          {% endif %}
+          {% endif %}
+          {% if nombre in adminList %}
+          <td name="delete"><a href="{% url 'deleteSolicitud' solicitud.id %}"><img class="delete" src="{% static 'admin/imagenes/deleteIcon.png' %}" alt="Delete"></a></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+    </section>
+  </main>
+
+  <script>
+    function navigate(id){
+      window.location.href = "https://empleados.okoa.tech/observacionesSolicitud/" + id;
+    }
+    function newSoli(){
+      window.location.href = "https://empleados.okoa.tech/solicitud"
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
+</body>

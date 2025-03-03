@@ -1,0 +1,356 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+body{
+    height: auto;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+
+}
+main{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top_section{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 100%;
+    width: 10%;
+}
+.logo{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 100%;
+    width: 15%;
+}
+.logo img{
+    height: 80%;
+}
+
+.home img{
+    height: 70%;
+}
+.vacio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60%;
+}
+form{
+    margin-top: 2%;
+    height: 100%;
+    width: 70%;
+}
+.datos_section{
+    height: 120%;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+    box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
+    border-radius: 17px;
+}
+.banco_section{
+    width: 100%;
+    height: 50%;
+    background-color: rgb(247, 247, 247);
+    box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
+    border-radius: 17px;
+}
+.cabecera{
+    height: 9%;
+    width: 100%;
+    background-color: #3dae2a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 17px 17px 0 0;
+}
+.campos{
+    height: 91%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.campos_cont{
+    height: 88%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.columna{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 45%;
+}
+
+.col_banc{
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    width: 90%;
+}
+
+.fila{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 33%;
+}
+
+.fila_jornada{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 90%;
+}
+
+.fila_jornada input{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+.fila_jornada p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila_jornada select{
+    font-size: large;
+    height: 35%;
+    width: 75%;
+    margin-left: 2%;
+}
+
+
+.fila_banc{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+}
+
+.fila_banc input{
+    font-size: large;
+    height: 35%;
+    width: 60%;
+    margin-left: 1%;
+}
+
+.fila_banc p{
+    margin-left: 1%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila input{
+    font-size: large;
+    height: 30%;
+    width: 75%;
+    margin-left: 2%;
+}
+.fila p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila select{
+    font-size: large;
+    height: 30%;
+    width: 75%;
+    margin-left: 2%;
+}
+
+.separador{
+    height: 8%;
+}
+
+.container_cont{
+    display: flex;
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.container_inf{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+    justify-content: start;
+    align-items: center;
+}
+
+.cont_sba{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 30%;
+}
+
+.cont_sba p{
+    margin-left: 2%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+.fila_sba{
+    width: 90%;
+    height: 30%;
+}
+
+.fila_sba p{
+    margin-left: 1%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila_sba input{
+    font-size: large;
+    height: 30%;
+    width: 90%;
+    margin-left: 1%;
+}
+
+.fila_sba select{
+    font-size: large;
+    height: 30%;
+    width: 90%;
+    margin-left: 1%;
+}
+
+.cont_inf{
+    display: flex;
+    width: 100%;
+    height: 45%;
+    justify-content: center;
+}
+.fila_inf{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+}
+.fila_inf p{
+    margin-left: 1%;
+    margin-bottom: 1%;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fila_inf input{
+    font-size: large;
+    height: 50%;
+    width: 85%;
+    margin-left: 1%;
+}
+
+.send{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+}
+.send button{
+    width: 15%;
+    height: 100%;
+    background-color: #3dae2a;
+    color: white;
+    font-size: large;
+    border-radius: 17px;
+    border: none;
+    box-shadow: 5px -5px 2px 1px rgb(192, 191, 191);
+    transition: all 0.1s;
+    cursor: pointer;
+}
+.send button:active{
+    translate: 5px -5px;
+    box-shadow: none;
+}
+
+.fila_inf select{
+    font-size: large;
+    height: 50%;
+    width: 85%;
+    margin-left: 1%;
+}
+
+.iban{
+    width: 100%;
+    height: 55%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.col2{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 6%;
+}
+.col2 input{
+    height: 70%;
+    width: 100%;
+}
+
+.col4{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 11%;
+}
+.col4 input{
+    height: 70%;
+    width: 100%;
+}
+
+.col10{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+}
+.col10 input{
+    height: 70%;
+    width: 100%;
+}

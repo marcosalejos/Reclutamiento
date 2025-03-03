@@ -1,0 +1,64 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oferta-Solicitud - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/asignarOferta.css' %}">
+</head>
+
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'solicitudes' %}">
+                    <img src="{% static 'admin/imagenes/flechaAzul.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="vacio">
+
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <section class="campos_section">
+            <div class="cabecera">
+                <h3>Asignación Solicitud-Oferta</h3>
+            </div>
+            <div class="datos_container">
+                <div class="fila">
+                    <div class="col">
+                        <p>Solicitante</p>
+                        <input type="text" value="{{solicitud.Solicitante}}" readonly>
+                    </div>
+                    <div class="col">
+                        <p>Centro</p>
+                        <input type="text" value="{{solicitud.Centro}}" readonly>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="col">
+                        <p>Puesto</p>
+                        <input type="text" value="{{solicitud.Puesto}}" readonly>
+                    </div> 
+                    <div class="col">
+                        <p>Fecha Solicitud</p>
+                        <input type="text" value="{{solicitud.FechaSolicitud|date:"d/m/Y"}}" readonly>
+                    </div>
+                </div>
+                <form action="{% url 'asignarOferta' solicitud.id %}" method="post">
+                    {% csrf_token %} 
+                    <div class="fila_proceso">
+                        <p>Proceso de Selección</p>
+                        {{form.Ofertas}}
+                    </div>
+                    <div class="send">
+                        <button type="submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>

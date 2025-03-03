@@ -1,0 +1,110 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Suscripcion - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/suscripciones.css' %}">
+</head>
+
+<body>
+    <main>
+        <div class="header">
+            <div class="home_icon">
+                <a href="{% url 'ofertas' %}">
+                    <img src="{% static 'admin/imagenes/flecha.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png" alt="Logo">
+            </div>
+        </div>
+        <section class="section-container">
+            <div class="div-title"><h1>Suscripción Ofertas</h1></div>
+            <form method="post" action="{% url 'suscripcion' %}">
+                {% csrf_token %}
+                <div class="inputs_all">
+                    <div class="div-inputs">
+                        <div class="mailContainer">
+                                {{ form.Suscriptor }}
+                        </div>
+                        <div class="tlfContainer">
+                            {{form.Telefono}}
+                        </div>
+                    </div>
+                    <div class="div_errores">
+                        {{ form.Telefono.errors.as_text }}
+                    </div>
+                </div>
+                <div class="div-select">
+                    <div class="div-ofertas">
+                        {{ form.Ofertas }}
+                    </div>
+                    <button type="button" onclick="moveOption()">Añadir</button>
+                    <button type="button" onclick="deleteOption()">Quitar</button>
+                </div>
+                <div class="div-container">
+                    <select id="ofertasSeleccionadas" name="ofertas_seleccionadas" multiple size="5">
+                        <!-- Este cuadro estará inicialmente vacío -->
+                    </select>
+                </div>
+                <div class="send">
+                    <button type="submit" onclick="selectAllOptions()">Enviar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+        
+
+    
+        
+
+    <script>
+        function moveOption() {
+            var selectList = document.getElementById("id_Ofertas");
+            var selectedOption = selectList.options[selectList.selectedIndex];
+            var selectedValue = selectedOption.value;
+            var selectedText = selectedOption.text;
+            
+            if (selectedValue !== "") {
+                var selectedList = document.getElementById("ofertasSeleccionadas");
+                var options = selectedList.options;
+
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value === selectedValue) {
+                        // La opción ya está en el cuadro de ofertas seleccionadas, no hacer nada
+                        return;
+                    }
+                }
+
+            var newOption = document.createElement("option");
+            newOption.value = selectedValue;
+            newOption.text = selectedText;
+            selectedList.appendChild(newOption);
+            }
+        }
+
+        function deleteOption() {
+            var selectList = document.getElementById("ofertasSeleccionadas");
+            var selectedOption = selectList.options[selectList.selectedIndex];
+            var selectedValue = selectedOption.value;
+            var selectedText = selectedOption.text;
+            
+            if (selectedValue !== "") {
+                var originalList = document.getElementById("ofertas");
+                selectedOption.remove();
+            }
+        }
+
+        function selectAllOptions() {
+        var selectList = document.getElementById("ofertasSeleccionadas");
+        var options = selectList.options;
+        
+        // Iterar sobre todas las opciones y establecer su atributo "selected" como true
+        for (var i = 0; i < options.length; i++) {
+            options[i].selected = true;
+        }
+    }
+    </script>
+</body>

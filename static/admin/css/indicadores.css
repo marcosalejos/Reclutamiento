@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body{
+    height: 100vh;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  main{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top_section{
+    margin-top: 1%;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 100%;
+    width: 10%;
+}
+.logo{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 100%;
+    width: 15%;
+    margin-right: 2%;
+}
+.logo img{
+    height: 80%;
+}
+
+.home img{
+    height: 70px;
+}
+.vacio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60%;
+}
+form{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  margin-top: 2%;
+  height: 100%;
+  width: 70%;
+}
+
+.datos_section{
+  width: 80%;
+  height: 80%;
+  background-color: rgb(247, 247, 247);
+  box-shadow: 10px -10px 2px 1px rgb(192, 191, 191);
+  border-radius: 17px;
+}
+.cabecera{
+  height: 12%;
+  width: 100%;
+  background-color: #3dae2a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 17px 17px 0 0;
+}
+
+.resumen_container{
+  width: 100%;
+  height: 30%;
+  margin-top: 2%;
+  border-bottom: 1px solid;
+}
+
+.campos_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 35%;
+}
+.campos_container textarea{
+  height: 70%;
+  width: 70%;
+  max-width: 70%;
+  max-height: 70%;
+  font-size: 20px;
+}
+
+.container_send{
+  width: 100%;
+  height: 12%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.container_send button{
+  border: none;
+  width: 13%;
+  height: 60%;
+  border-radius: 20px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  transition: all .1s ease-out;
+  font-size: medium;
+  box-shadow: 0 5px #666;
+}
+.container_send button:active{
+  box-shadow: 0 0 black;
+  transform: translateY(2px);
+}
+
+.indicador{
+    width: 100%;
+    height: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enunciado{
+    width: 40%;
+    margin-left: 2%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 2%;
+}
+.dato{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.campos_formulario{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 65%;
+    height: 50%;
+}
+
+.campos_formulario p{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.campos_formulario select{
+    font-size: 18px;
+    width: 47%;
+    height: 30%;
+    border-radius: 7px;
+}
+
+.campos_formulario input{
+    width: 12%;
+    font-size: 18px;
+    height: 30%;
+
+}

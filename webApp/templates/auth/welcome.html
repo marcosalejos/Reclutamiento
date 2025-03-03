@@ -1,0 +1,54 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenida - Okoa</title>
+    <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+    <link rel="stylesheet" href="{% static 'admin/css/welcome.css' %}">
+</head>
+
+<body>
+    <main>
+        <section class="top_section">
+            <div class="home">
+                <a href="{% url 'candidatos' %}">
+                    <img src="{% static 'imagenes/flechaAzul.png' %}" alt="Back">
+                </a>
+            </div>
+            <div class="vacio">
+
+            </div>
+            <div class="logo">
+                <img src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa-B.png" alt="LOGO">
+            </div>
+        </section>
+        <section class="campos_section">
+            <div class="cabecera">
+                <h3>Notificación de Bienvenida</h3>
+            </div>
+            <div class="datos_container">
+                <form action="{% url 'welcome' candidato.id %}" method="post">
+                {% csrf_token %} 
+                    <div class="fila">
+                        <div class="col">
+                            <p>Nombre Completo</p>
+                            {{form.Nombre}}
+                        </div>
+                        <div class="col">
+                            <p>DNI</p>
+                            {{form.DNI}}
+                        </div>
+                    </div>
+                    <div class="fila_email" style="flex-direction: column; width: 100%;">
+                        <p>Email Personal</p>
+                        {{form.Mail}}
+                    </div>
+                    <div class="send">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>

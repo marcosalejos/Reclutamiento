@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ofertas - Okoa</title>
+  <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'admin/css/ofertas.css' %}">
+  <script src="{% static 'admin/js/ofertas.js' %}"></script>
+</head>
+<body class="BG-Blue TXT_Blanco">
+
+  <header class="header-container">
+    <section>
+        <img class="logo-img" src="https://okoa.tech/wp-content/uploads/2023/04/Logo-Okoa.png"/>
+        <ul>
+          <li><a href="{% url 'home' %}">Inicio</a></li>
+          <li><a href="{% url 'solicitudes' %}">Solicitudes</a></li>
+          <li><a href="{% url 'ofertas' %}">Ofertas</a></li>
+          {% if nombre in adminList %}
+          <li><a href="{% url 'candidatos' %}">Contrataciones</a></li>
+          {% endif %}
+          <li><a href="{% url 'sign_out' %}">Cerrar Sesión</a></li>
+        </ul> 
+    </section>
+  </header>
+  <main>
+    <section class="top_section">
+      <section class="botones">
+
+        <button onclick="mostrarTabla('tabla-activas')">Mostrar Ofertas Activas</button>
+        <button onclick="mostrarTabla('tabla-inactivas')">Mostrar Ofertas Inactivas</button>
+  
+      </section>
+      <section class="search_section">
+        <div class="form__group field">
+          <input type="input" onkeyup="Search()" class="form__field" placeholder="Nombre o fecha de la oferta" name="search" id='search' required />
+          <label for="search" class="form__label">Nombre o Fecha</label>
+        </div>
+        <div class="container_suscripcion">
+         <!-- <button onclick="newSub()">Nueva suscripción</button> --> 
+        </div>
+      </section>
+      
+    </section>
+    <section class="tablas">
+
+      <table id="tabla-activas" class="styled-table">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+        {% for oferta in ofertasActivas %}
+        <tr>
+          <td>{{oferta.id}}</td>
+          <td style="width: 500px;" class="nombre_oferta">{{oferta.Nombre}}</td>
+          <td>{{oferta.lastUpdate|date:"d/m/Y"}}</td>
+          <td><button>Detalles</button></td>
+        </tr>
+        {% endfor %}
+      </table>
+      <div class="tabla-container">
+        <table id ="tabla-inactivas" class="styled-table">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+          {% for oferta in ofertasInactivas %}
+          <tr>
+            <td>{{oferta.id}}</td>
+            <td style="width: 500px;" class="nombre_oferta">{{oferta.Nombre}}</td>
+            <td>{{oferta.lastUpdate|date:"d/m/Y"}}</td>
+            <td><button>Detalles</button></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function newSub(){
+      window.location.href = "https://empleados.okoa.tech/suscripcion"
+    }
+  </script>
+</body>

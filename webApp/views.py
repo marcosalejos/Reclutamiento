@@ -90,7 +90,7 @@ def MailErrorLog(destinatario):
 def Microsoft_Token():
     tenant_id = '846f6db3-c6a6-4131-b084-cf6b63ab8af5'
     client_id = '5bd04eae-8f60-4d26-9288-4d3cae02c048'
-    client_secret = '5WA8Q~cUSLccqcdBZreZB3f-sz-B8WIN22Hu4cHL'
+    client_secret = ''
 
     # Obtener token de acceso
     token_url = f'https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token'

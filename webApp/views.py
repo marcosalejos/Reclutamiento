@@ -1,11 +1,12 @@
 import base64
 import json
 from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from webApp.FormAsignacion import FormularioAsignacion
 from webApp.FormCandidato import FormularioCandidato
 from . import models
-from datetime import date
+from datetime import date, timedelta
 from .FormSolicitud import FormularioSolicitud
 from .FormObservaciones import FormularioObservaciones
 from .FormSuscriptores import FormularioSuscriptores
@@ -20,6 +21,11 @@ from django.shortcuts import get_object_or_404
 import datetime
 import os
 import shutil
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import pandas as pd
+from django.core.cache import cache
 
 ms_identity_web = settings.MS_IDENTITY_WEB
 
@@ -84,6 +90,7 @@ def MailErrorLog(destinatario):
 def Microsoft_Token():
     tenant_id = '846f6db3-c6a6-4131-b084-cf6b63ab8af5'
     client_id = '5bd04eae-8f60-4d26-9288-4d3cae02c048'
+    client_secret = '5WA8Q~cUSLccqcdBZreZB3f-sz-B8WIN22Hu4cHL'
 
     # Obtener token de acceso
     token_url = f'https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token'
@@ -986,6 +993,259 @@ def detalleSoli(request, id):
             form = FormularioDetalleSoli(initial=initial_data)
 
     return render(request, 'auth/detalleSoli.html', {'form': form, 'solicitud': solicitud})
+
+@ms_identity_web.login_required
+def updateData(request):
+    cache.set('status', 'Descargando Excel...', timeout=5000)
+    getExcel() 
+
+    cache.set('status', 'Procesando Datos...', timeout=5000)
+    procesarExcel() 
+
+    cache.set('status', 'Completado', timeout=5000)
+
+    return JsonResponse({'status': 'Completado'})
+
+@ms_identity_web.login_required
+def getStatus(request):
+    status = cache.get('status', "Esperando...")
+    return JsonResponse({'status': status})
+
+def getExcel():
+
+    today = date.today()
+    print(today)
+
+    #Download = "/home/ubuntu/snap/chromium/current/Downloads"
+    #Destino = "/home/ubuntu/TareasProgramadas/Procesos"
+
+    Download = "C:/Users/MarcosAlejos/Downloads"
+    Destino = "D:/App VYP/Reclutamiento/Procesos"
+
+
+    if not os.path.exists(Destino + "/" + str(today - timedelta(days=1)) + ".xlsx"):
+
+        try:
+            options = webdriver.ChromeOptions()
+            options.add_argument('--headless')
+            driver = webdriver.Chrome(options=options)
+
+            driver.get('https://okoa.admin.epreselec.com/Login.aspx?ReturnUrl=%2fes%2f')
+
+            time.sleep(3)
+            usuario = driver.find_element(By.ID, "js-username")
+            usuario.send_keys("miguel.rodriguez@outmangroup.com")
+
+            password = driver.find_element(By.ID, "js-password")
+            password.send_keys("Ingenieria.31")
+            time.sleep(2)
+
+            linkLogin = driver.find_element(By.ID, 'btn_login_submit')
+
+            linkLogin.click()
+            print("Log in correcto")
+            time.sleep(5)
+            linkProcesos = driver.find_element(By.ID, "MainMenuControl_vacantes_anchor")
+            linkProcesos.click()
+            print("Procesos OK")
+            time.sleep(5)
+
+            linkExcel = driver.find_element(By.XPATH, '//*[@id="MainContent_ctl00_ctl00_ctl00_divHeader"]/div[2]/span[2]/a')
+            linkExcel.click()
+            print("Excel OK")
+            time.sleep(5)
+            botonDescarga = driver.find_element(By.ID, 'boton_download_excel')
+            botonDescarga.click()
+            print("Descarga OK")
+            time.sleep(5)
+
+        except Exception as e:
+            print(e)
+
+        try:
+
+            archivos = os.listdir(Download)
+            archivos = [archivo for archivo in archivos if os.path.isfile(os.path.join(Download, archivo))]
+
+            reciente = max(archivos, key=lambda f: os.path.getmtime(os.path.join(Download, f)))
+
+            shutil.move(Download + "/" + reciente, Destino)
+
+            os.rename(Destino + "/" + reciente, Destino + "/" + str(today - timedelta(days=1)) + ".xlsx")
+
+        except Exception as e:
+            print("Error al encontrar el archivo descargado")
+
+
+def procesarExcel():
+    today = date.today()
+    today = date.today() - timedelta(days=1)
+    print(today)
+    procesosActivos, procesosInactivos = procesarExcelData()
+
+    if len(procesosActivos) > 0 and len(procesosInactivos) > 0:
+
+        try:
+            conexion = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=serversage.database.windows.net;DATABASE=Reclutamiento;UID=SageAdmin;PWD=Sistemas.30')
+            print("Conextion establecida")
+            cursor = conexion.cursor()
+
+            for proceso in procesosActivos:
+                nuevo, id = procesoNuevo(proceso, cursor)
+                if nuevo:
+                    añadirProcesoNuevo(proceso, cursor)
+                else:
+
+                    Cambios(proceso, id, cursor)
+
+                    tupla = EstadoFechaMax(proceso, cursor)
+                    contratados = proceso[7] - tupla[3]
+                    if contratados > 0:
+                        for i in range(contratados):
+                            Detonante(cursor, tupla[0])
+
+                    añadirProceso(proceso, cursor, id)
+
+            for proceso in procesosInactivos:
+
+                tupla = EstadoFechaMax(proceso, cursor)
+
+                if tupla[2] == "Activo":
+
+                    Cambios(proceso, tupla[0], cursor)
+
+                    contratados = proceso[7] - tupla[3]
+                    if contratados > 0:
+                        for i in range(contratados):
+                            Detonante(cursor, tupla[0])
+
+                    añadirProceso(proceso, cursor, tupla[0])
+
+        except Exception as e:
+            print(e)
+
+
+def procesarExcelData():
+    today = date.today()
+    today = date.today() - timedelta(days=1)
+    valido = True
+
+    Path = "D:/App VYP/Reclutamiento/Procesos/" + str(today) + ".xlsx"
+    procesosActivos = []
+    procesosInactivos = []
+
+    try:
+        datosExcel = pd.read_excel(Path)
+    except Exception as e:
+        print(e)
+        valido = False
+
+    if valido:
+        for index, fila in datosExcel.iterrows():
+
+            insctitosTot = fila["Inscritos"] + fila["En Proceso"] + fila["Finalistas"] + fila["Contratados"] + fila["Descartados"]
+            fechaPubli = datetime.datetime.strptime(fila["Fecha inicio"], '%d/%m/%Y')
+            fechaPubli_form = fechaPubli.strftime('%Y-%m-%d')
+            proceso = [fila["Nombre proceso"], fechaPubli_form, today.strftime('%Y-%m-%d'), fila["¿Activo?"],
+                    fila["Inscritos"], fila["En Proceso"], fila["Finalistas"], fila["Contratados"], fila["Descartados"], insctitosTot]
+
+
+            if proceso[3] == "Activo":
+                procesosActivos.append(proceso)
+
+            elif proceso[3] == "Inactivo":
+                procesosInactivos.append(proceso)
+
+    return procesosActivos, procesosInactivos
+
+
+def añadirProceso(proceso, cursor, id):
+
+    # Nombre / FechaIni / FechaActual / Estado / Inscritos / En Proceso / Finalistas / Contratados / Descartados / InscTot
+
+    cursor.execute("INSERT INTO webApp_entradaoferta VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (proceso[4], proceso[5], proceso[6], proceso[7], proceso[8],
+            proceso[1], proceso[2], proceso[3], proceso[9], id))
+    #cursor.commit()
+    print("Entrada Añadida a la oferta: ", id)
+
+    cursor.execute("UPDATE webApp_oferta SET Estado = ?, lastUpdate = ? WHERE id = ?", (proceso[3], proceso[2], id))
+    #cursor.commit()
+    print("Actualizada Oferta: ", id)
+
+
+def añadirProcesoNuevo(proceso, cursor):
+    cursor.execute("INSERT INTO webApp_oferta(Nombre, Estado, lastUpdate, Interno) VALUES(?, ?, ?, ?)", (proceso[0], proceso[3], proceso[2], False))
+    #cursor.commit()
+    print("Oferta Nueva Añadida: ", proceso[0])
+    cursor.execute("SELECT * FROM webApp_oferta WHERE webApp_oferta.Nombre = '" + proceso[0] + "'")
+    res = cursor.fetchall()
+    cursor.execute("INSERT INTO webApp_entradaoferta VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (proceso[4], proceso[5], proceso[6], proceso[7], proceso[8],
+            proceso[1], proceso[2], proceso[3], proceso[9], res[0][0]))
+
+    #cursor.commit()
+    print("Entrada Añadida a la oferta: ", res[0][0])
+
+
+
+def Cambios(proceso, id, cursor):
+
+    today = date.today()
+    today = date.today() - timedelta(days=1)
+    # Nombre / FechaIni / FechaActual / Estado / Inscritos / En Proceso / Finalistas / Contratados / Descartados / InscTot
+
+    cursor.execute("SELECT * FROM webApp_entradaOferta WHERE OfertaID_id = ? ", (id))
+    data = cursor.fetchall()
+    tuplaReciente = max(data, key=lambda x:x[7])
+
+    DifInsc = proceso[9] - tuplaReciente[9]
+    I_EP = proceso[5] - tuplaReciente[2]
+    EP_F = proceso[6] - tuplaReciente[3]
+    F_C = proceso[7] - tuplaReciente[4]
+    DifDesc = proceso[8] - tuplaReciente[5]
+    FechaIni = tuplaReciente[7]
+
+    if DifInsc == 0 and I_EP == 0 and EP_F == 0 and F_C == 0 and DifDesc == 0:
+        print("No han habido cambios en la oferta: ", id)
+    else:
+        cursor.execute("INSERT INTO webApp_registro VALUES(?,?,?,?,?,?,?,?)", (today, DifInsc, I_EP, EP_F, F_C, DifDesc, FechaIni, id))
+        #cursor.commit()
+        print("Registro añadido a la oferta: ", id)
+
+
+def Detonante(cursor, id):
+
+    today = date.today()
+    today = date.today() - timedelta(days=1)
+    cursor.execute("INSERT INTO webApp_candidato(Nombre, OfertaID_id, Estado, FechaRegistro) VALUES (?, ?, ?, ?)",
+                   ('Candidato', id, 'Pendiente', today))
+    #cursor.commit()
+    print("Se ha añadido un candidato a la oferta: ", id)
+
+
+def EstadoFechaMax(proceso, cursor):
+
+    cursor.execute("SELECT * FROM webApp_oferta WHERE webApp_oferta.Nombre = '" + proceso[0] + "'")
+    data = cursor.fetchall()
+    id = data[0][0]
+    # OfertaID / Fecha / Estado / Contratados
+    cursor.execute("SELECT webApp_entradaoferta.OfertaID_id, webApp_entradaoferta.fechaActual, webApp_entradaoferta.Estado, webApp_entradaoferta.Contratados FROM webApp_entradaoferta WHERE webApp_entradaoferta.OfertaID_id = " + str(id))
+    data = cursor.fetchall()
+    tuplaReciente = max(data, key=lambda x: x[1])
+    return tuplaReciente
+
+
+def procesoNuevo(proceso, cursor):
+
+    cursor.execute("SELECT * FROM webApp_oferta WHERE webApp_oferta.Nombre = '" + proceso[0] + "'")
+    res = cursor.fetchall()
+
+    if len(res) == 0:
+        return True, 0
+    else:
+        return False, res[0][0]
+
 
 @ms_identity_web.login_required
 def deleteSolicitud(request, id):

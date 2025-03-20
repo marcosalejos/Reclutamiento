@@ -5,8 +5,9 @@
   <link rel="icon" href="https://okoa.tech/wp-content/uploads/2023/06/3.jpg">
 
   {% load static %}
-  <link rel="stylesheet" href="{% static 'admin/css/ofertas.css' %}">
-  <script src="{% static 'admin/js/ofertas.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/ofertas.css' %}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'js/ofertas.js' %}"></script>
 </head>
 <body class="BG-Blue TXT_Blanco">
 
@@ -30,7 +31,12 @@
 
         <button onclick="mostrarTabla('tabla-activas')">Mostrar Ofertas Activas</button>
         <button onclick="mostrarTabla('tabla-inactivas')">Mostrar Ofertas Inactivas</button>
-  
+        <div style="height: 50%; width: 35%; display: flex; flex-direction: column; align-items: center;">
+          <button id="updateButton" style="height: 60px; width: auto; background: none; border: none; padding: 0; cursor: pointer;">
+            <img style="height: 100%; width: auto;" src="https://cdn-icons-png.flaticon.com/512/2581/2581896.png" alt="Actualizar BD">
+        </button>
+        <p id="statusMessage">Actualizar</p>
+        </div>
       </section>
       <section class="search_section">
         <div class="form__group field">
@@ -86,5 +92,42 @@
     function newSub(){
       window.location.href = "https://empleados.okoa.tech/suscripcion"
     }
+  </script>
+  <script>
+    $(document).ready(function () {
+        $("#updateButton").click(function (event) {
+            event.preventDefault();  // Evita que el botón recargue la página
+            
+            $("#statusMessage").text("Iniciando actualización...");
+            pollStatus();  // Comienza a consultar el estado en tiempo real
+
+            $.ajax({
+                url: "{% url 'updateData' %}",
+                type: "GET",
+                success: function () {
+                    console.log("Proceso iniciado correctamente");
+                }
+            });
+        });
+
+        function pollStatus() {
+            let interval = setInterval(function () {
+                $.ajax({
+                    url: "{% url 'getStatus' %}",
+                    type: "GET",
+                    success: function (data) {
+                        $("#statusMessage").text(data.status);
+                        
+                        if (data.status === "Carga Completada") {
+                            clearInterval(interval);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            }, 2000);  // Consulta el estado cada 2 segundos
+        }
+    });
   </script>
 </body>

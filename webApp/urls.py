@@ -28,6 +28,8 @@ urlpatterns = [
     path('welcome/<id>', views.welcome, name='welcome'),
     path('updateObservacion/<int:id>/<str:descripcion>/<int:solicitudID>', views.updateObservacion, name='updateObservacion'),
     path('indicadores/<id>', views.indicadores, name='indicadores'),
+    path('updateData/', views.updateData, name='updateData'),
+    path('getStatus/', views.getStatus, name='getStatus'),
     path(f'{settings.AAD_CONFIG.django.auth_endpoints.prefix}/', include(msal_urls)),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
 ]
